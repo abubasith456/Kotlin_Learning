@@ -1,13 +1,14 @@
 package com.example.kotlinlearning
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import com.example.kotlinlearning.databinding.ActivityMainBinding
+import com.example.kotlinlearning.viewModel.ActivityModel
 
 var a: String = "ABU"
 var b: Int = 3_00_000
@@ -23,14 +24,25 @@ class MainActivity : AppCompatActivity() {
             this.viewModel = viewModel
             this.setLifecycleOwner(this@MainActivity)
         }
+        viewModel.getActivity(MainActivity::class.java)
 
         viewModel.text.observe(this, Observer {
             Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
         })
-//        printHello()
+
+        viewModel.moveSecondActivity.observe(this, Observer {
+            if (it == true) {
+                val intent = Intent(this, SecondActivity::class.java)
+                startActivity(intent)
+            }
+        })
+        printHello("Abu")
+
     }
 
-    fun printHello() {
+    fun printHello(name: String) {
+        println("THIS IS EXAMPLE FOR KOTLIN ==> $name")
+
         a = b.toString();
         println("Value is==> " + a.plus(b) + " Another value==>" + a)
         println("Value of string conversion ==> $c and $d ")
