@@ -8,12 +8,17 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.example.kotlinlearning.databinding.ActivityMainBinding
+import com.example.kotlinlearning.model.Example
+import com.example.kotlinlearning.model.UserData
 import com.example.kotlinlearning.viewModel.ActivityModel
 
 var a: String = "ABU"
 var b: Int = 3_00_000
 val c: Int = 0
 val d: Int = 80
+val userData:UserData=UserData("Mohamed Abu Basith","IdontKnown")
+lateinit var example:Example
+
 lateinit var activityModel: ActivityModel
 
 class MainActivity : AppCompatActivity() {
@@ -33,6 +38,16 @@ class MainActivity : AppCompatActivity() {
 
         moveSecondActivity()
         moveLoginActivity()
+        moveNewsActivity()
+    }
+
+    private fun moveNewsActivity() {
+        activityModel.moveNewsActivity.observe(this, Observer {
+            if (it == true) {
+                val intent = Intent(this, NewsActivity::class.java)
+                startActivity(intent)
+            }
+        })
     }
 
     private fun moveLoginActivity() {
@@ -51,6 +66,8 @@ class MainActivity : AppCompatActivity() {
                 startActivity(intent)
             }
         })
+
+        printHello("Abu")
     }
 
     fun printHello(name: String) {
@@ -83,5 +100,10 @@ class MainActivity : AppCompatActivity() {
 
         var g = mutableListOf<Int>(0, 1, 2, 3, 4)
         println(g)
+
+        println("Userdata value==> "+ userData.name)
+        println("Userdata value==> "+ userData.password)
+
+
     }
 }

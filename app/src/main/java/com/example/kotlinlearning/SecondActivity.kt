@@ -7,10 +7,13 @@ import androidx.lifecycle.ViewModelProviders
 import com.example.kotlinlearning.databinding.ActivitySecondBinding
 import com.example.kotlinlearning.viewModel.SecondActivityViewModel
 
-lateinit var dataBinding: ActivitySecondBinding
-lateinit var viewModel: SecondActivityViewModel
+
 
 class SecondActivity : AppCompatActivity() {
+
+    lateinit var dataBinding: ActivitySecondBinding
+    lateinit var viewModel: SecondActivityViewModel
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         dataBinding = ActivitySecondBinding.inflate(layoutInflater)
