@@ -2,13 +2,10 @@ package com.example.kotlinlearning.viewModel
 
 import android.app.Application
 import android.util.Log
-import android.util.LogPrinter
 import android.util.Patterns
 import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import com.example.kotlinlearning.SecondActivity
 import com.example.kotlinlearning.databinding.ActivitySecondBinding
 import com.google.firebase.auth.FirebaseAuth

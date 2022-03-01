@@ -1,12 +1,15 @@
 package com.example.kotlinlearning.viewModel
 
+import android.util.Log
 import android.util.Patterns
+import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import com.example.kotlinlearning.LoginActivity
 import com.google.firebase.auth.FirebaseAuth
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 
-class LoginActivityViewModel : ViewModel() {
+class LoginActivityViewModel(application: Application) : AndroidViewModel(application) {
 
     var emailText = MutableLiveData<String>("")
     var passwordText = MutableLiveData<String>("")
@@ -29,6 +32,38 @@ class LoginActivityViewModel : ViewModel() {
 
     fun passwordOnFocused(value: Boolean) {
         if (!value) {
+            passwordTextHelper.value = validPassword()
+        }
+    }
+
+    fun loginButtonPressed() {
+        if (emailValid() == null && validPassword() == null) {
+            val email: String = emailText.value.toString()
+            val password: String = passwordText.value.toString()
+            try {
+                firebaseAuth.signInWithEmailAndPassword(email, password)
+                    .addOnCompleteListener(loginActivity.newInstance()) {
+                        if (it.isSuccessful) {
+                            Toast.makeText(
+                                getApplication(),
+                                "Login successfully",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                            resetField()
+                        } else {
+                            Toast.makeText(
+                                getApplication(),
+                                it.exception.toString(),
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    }
+
+            } catch (e: Exception) {
+                Log.e("Firebase error==> ", e.message.toString())
+            }
+        }else{
+            emailTextHelper.value = emailValid()
             passwordTextHelper.value = validPassword()
         }
     }
@@ -62,6 +97,14 @@ class LoginActivityViewModel : ViewModel() {
             return "Must Contain 1 Special Character (@#\$%^&+=)"
         }
         return null
+    }
+
+    private fun resetField() {
+        emailTextHelper.value = "*Required"
+        passwordTextHelper.value = "*Required"
+
+        emailText.value = ""
+        passwordText.value = ""
     }
 
 }

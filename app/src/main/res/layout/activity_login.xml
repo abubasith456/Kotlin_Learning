@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
-    
+
     <data>
+
         <variable
             name="loginViewModel"
             type="com.example.kotlinlearning.viewModel.LoginActivityViewModel" />
@@ -69,6 +70,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="36dp"
+            android:onClick="@{()->loginViewModel.loginButtonPressed()}"
             android:text="login"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.498"
