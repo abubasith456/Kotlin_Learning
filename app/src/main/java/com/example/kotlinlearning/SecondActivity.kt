@@ -21,6 +21,7 @@ class SecondActivity : AppCompatActivity() {
             this.setLifecycleOwner(this@SecondActivity)
         }
         viewModel.getViewModel(dataBinding)
+        viewModel.getActivity(SecondActivity::class.java)
 
         emailFocusListener()
         passwordFocusListener()

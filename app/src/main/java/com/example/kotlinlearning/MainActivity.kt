@@ -14,30 +14,43 @@ var a: String = "ABU"
 var b: Int = 3_00_000
 val c: Int = 0
 val d: Int = 80
+lateinit var activityModel: ActivityModel
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        val viewModel = ViewModelProviders.of(this).get(ActivityModel::class.java)
+        activityModel = ViewModelProviders.of(this).get(ActivityModel::class.java)
         DataBindingUtil.setContentView<ActivityMainBinding>(this, R.layout.activity_main).apply {
-            this.viewModel = viewModel
-            this.setLifecycleOwner(this@MainActivity)
+            this.viewModel = activityModel
+            this.lifecycleOwner = this@MainActivity
         }
-        viewModel.getActivity(MainActivity::class.java)
+        activityModel.getActivity(MainActivity::class.java)
 
-        viewModel.text.observe(this, Observer {
+        activityModel.text.observe(this, Observer {
             Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
         })
 
-        viewModel.moveSecondActivity.observe(this, Observer {
+        moveSecondActivity()
+        moveLoginActivity()
+    }
+
+    private fun moveLoginActivity() {
+        activityModel.moveLoginActivity.observe(this, Observer {
+            if (it == true) {
+                val intent = Intent(this, LoginActivity::class.java)
+                startActivity(intent)
+            }
+        })
+    }
+
+    private fun moveSecondActivity() {
+        activityModel.moveSecondActivity.observe(this, Observer {
             if (it == true) {
                 val intent = Intent(this, SecondActivity::class.java)
                 startActivity(intent)
             }
         })
-        printHello("Abu")
-
     }
 
     fun printHello(name: String) {
@@ -64,7 +77,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         //Nullability check "?" indicates if the variable may contain Null value also.
-        var e: Int? = null;
+        var e: Int? = null
         var f = e?.dec() ?: 0
         println(f)
 
