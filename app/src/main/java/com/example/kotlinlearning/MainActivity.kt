@@ -8,7 +8,6 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.example.kotlinlearning.databinding.ActivityMainBinding
-import com.example.kotlinlearning.model.Example
 import com.example.kotlinlearning.model.UserData
 import com.example.kotlinlearning.viewModel.ActivityModel
 
@@ -17,7 +16,6 @@ var b: Int = 3_00_000
 val c: Int = 0
 val d: Int = 80
 val userData:UserData=UserData("Mohamed Abu Basith","IdontKnown")
-lateinit var example:Example
 
 lateinit var activityModel: ActivityModel
 

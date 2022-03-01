@@ -9,7 +9,6 @@ import com.example.kotlinlearning.rest_api.BCRequests
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.lang.String
 import kotlin.Exception
 import kotlin.Throwable
 import kotlin.toString
@@ -18,7 +17,7 @@ class NewsActivity : AppCompatActivity() {
 
     private val api = "a49844b91eb748bb9d3458aa0794db69"
     private val country = "in"
-    private val category = "general"
+    private val category = "sports"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,7 +27,6 @@ class NewsActivity : AppCompatActivity() {
 
     private fun showNews() {
         try {
-
             val call: Call<NewsResponse> =
                 BCRequests().bCRestService.getNewsData(country, category, null, api)
             call.enqueue(object : Callback<NewsResponse> {
@@ -38,11 +36,12 @@ class NewsActivity : AppCompatActivity() {
                 ) {
                     if (response.isSuccessful()) {
                         Toast.makeText(this@NewsActivity, "Success", Toast.LENGTH_SHORT).show()
-                        val responseBody = response.body()
-                        for (myData in responseBody.toString()) {
+                        val responseBody = response.body()?.articles
+                        val responseTotal = response.body()?.totalResults
+                        for (myData in responseBody?.toList()!!) {
                             Log.e("Result==> ", myData.toString())
                         }
-                        Log.e("Result==> ",responseBody.toString())
+                        Log.e("Result==> ", responseTotal.toString())
 //
                     }
                 }
@@ -50,8 +49,9 @@ class NewsActivity : AppCompatActivity() {
                 override fun onFailure(call: Call<NewsResponse>, t: Throwable) {
                     Toast.makeText(this@NewsActivity, t.message, Toast.LENGTH_SHORT)
                         .show()
-                    Log.e("Result==> ",t.message.toString())
+                    Log.e("Result==> ", t.message.toString())
                 }
+
             })
 
         } catch (e: Exception) {

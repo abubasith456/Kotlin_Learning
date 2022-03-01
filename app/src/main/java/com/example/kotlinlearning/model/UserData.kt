@@ -2,7 +2,7 @@ package com.example.kotlinlearning.model
 
 import com.example.kotlinlearning.a
 
-class UserData : Example {
+class UserData {
 
     var name: String
     var password: String
@@ -12,7 +12,4 @@ class UserData : Example {
         this.password = password
     }
 
-    override fun exampple() {
-        super.exampple()
-    }
 }
