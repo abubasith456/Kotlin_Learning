@@ -1,5 +1,8 @@
 package com.example.kotlinlearning.model
 
+import androidx.databinding.BindingAdapter
+import com.bumptech.glide.Glide
+
 data class Article(
     val author: String,
     val content: String,
@@ -8,5 +11,5 @@ data class Article(
     val source: Source,
     val title: String,
     val url: String,
-    val urlToImage: String
+    val urlToImage: String,
 )
