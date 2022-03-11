@@ -24,7 +24,7 @@
             android:layout_marginHorizontal="20dp"
             android:layout_marginTop="200dp"
             app:helperText="@{loginViewModel.emailTextHelper}"
-            app:helperTextTextColor="@color/red"
+            app:helperTextTextColor="@color/colorRed"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -47,7 +47,7 @@
             android:layout_marginHorizontal="20dp"
             android:layout_marginTop="30dp"
             app:helperText="@{loginViewModel.passwordTextHelper}"
-            app:helperTextTextColor="@color/red"
+            app:helperTextTextColor="@color/colorRed"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/emailTextLayout"

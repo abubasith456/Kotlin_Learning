@@ -11,6 +11,10 @@ import com.example.kotlinlearning.databinding.LoginFragmentBinding
 
 class LoginFragment : Fragment() {
 
+    companion object {
+        fun newInstance() = LoginFragment()
+    }
+
     private lateinit var viewModel: LoginViewModel
     lateinit var fragmentBinding: LoginFragmentBinding
     override fun onCreateView(
@@ -24,6 +28,12 @@ class LoginFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(this).get(LoginViewModel::class.java)
+        viewModel.apply {
+            activity?.let { this.getActivity(it) }
+        }
+        fragmentBinding.apply {
+            this.loginViewModel=viewModel
+        }
         // TODO: Use the ViewModel
     }
 
