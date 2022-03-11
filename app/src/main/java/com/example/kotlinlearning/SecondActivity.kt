@@ -26,7 +26,7 @@ class SecondActivity : AppCompatActivity() {
         viewModel.getViewModel(dataBinding)
         viewModel.getActivity(SecondActivity::class.java)
 
-        emailFocusListener()
+//        emailFocusListener()
         passwordFocusListener()
         usernameFocusListener()
 
@@ -52,15 +52,15 @@ class SecondActivity : AppCompatActivity() {
 //    }
 
 
-    private fun emailFocusListener() {
-        dataBinding.emailEditText.setOnFocusChangeListener { view, focused ->
-//            if (!value) {
-//                dataBinding.emailTextLayout.helperText = emailValid()
-//            }
-            viewModel.emailOnFocused(focused)
-        }
-
-    }
+//    private fun emailFocusListener() {
+//        dataBinding.emailEditText.setOnFocusChangeListener { view, focused ->
+////            if (!value) {
+////                dataBinding.emailTextLayout.helperText = emailValid()
+////            }
+//            viewModel.emailOnFocused(focused)
+//        }
+//
+//    }
 
     private fun passwordFocusListener() {
         dataBinding.passwordEditText.setOnFocusChangeListener { _, focused ->

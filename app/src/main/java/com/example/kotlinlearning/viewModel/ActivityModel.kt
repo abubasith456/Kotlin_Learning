@@ -1,11 +1,14 @@
 package com.example.kotlinlearning.viewModel
 
+import android.app.Application
+import android.util.Log
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import com.example.kotlinlearning.repository.FakeRepository
 import com.example.kotlinlearning.MainActivity
+import com.example.kotlinlearning.databinding.ActivityMainBinding
+import com.example.kotlinlearning.repository.FakeRepository
 
-class ActivityModel : ViewModel() {
+class ActivityModel(application: Application) : AndroidViewModel(application) {
 
     var text = MutableLiveData<String>()
     var anotherText = MutableLiveData<String>()
@@ -13,13 +16,20 @@ class ActivityModel : ViewModel() {
     var moveSecondActivity = MutableLiveData<Boolean>(false)
     var moveLoginActivity = MutableLiveData<Boolean>(false)
     var moveNewsActivity = MutableLiveData<Boolean>(false)
+    lateinit var activityMainBinding: ActivityMainBinding
     fun randomFruit() = FakeRepository().randomFruit()
     lateinit var activity: Class<MainActivity>
+
+    fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+    }
 
     fun getActivity(java: Class<MainActivity>) {
         this.activity = java
     }
 
+    fun getBinding(activityMainBinding: ActivityMainBinding) {
+        this.activityMainBinding = activityMainBinding
+    }
 
     fun onSubmit() {
         textView.value = text.value
@@ -41,7 +51,7 @@ class ActivityModel : ViewModel() {
         moveLoginActivity.value = true
     }
 
-    fun moveNewsActivity(){
-        moveNewsActivity.value=true
+    fun moveNewsActivity() {
+        moveNewsActivity.value = true
     }
 }

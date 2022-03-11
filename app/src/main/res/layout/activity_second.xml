@@ -34,7 +34,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:hint="@string/email"
+                android:nextFocusDown="@id/passwordTextLayout"
                 android:inputType="textEmailAddress"
+                android:onTextChanged="@{viewModelSecondActivity.onTextChangedEmail}"
                 android:lines="1"
                 android:text="@={viewModelSecondActivity.emailText}" />
         </com.google.android.material.textfield.TextInputLayout>

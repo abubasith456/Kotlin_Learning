@@ -51,6 +51,28 @@ class SecondActivityViewModel(application: Application) : AndroidViewModel(appli
         }
     }
 
+    fun onTextChangedEmail(text: CharSequence, start: Int, before: Int, count: Int) {
+        if (text.isEmpty()) {
+            Toast.makeText(
+                getApplication(),
+                "Please enter the email",
+                Toast.LENGTH_SHORT
+            ).show()
+        } else if (count == 0) {
+            Toast.makeText(
+                getApplication(),
+                "Please enter the Valid email",
+                Toast.LENGTH_SHORT
+            ).show()
+        } else if (!Patterns.EMAIL_ADDRESS.matcher(text).matches()) {
+            Toast.makeText(
+                getApplication(),
+                "Please enter the Valid email",
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+    }
+
     private fun emailValid(): String? {
         var email: String = emailText.value.toString()
         if (email == "") {
@@ -92,16 +114,38 @@ class SecondActivityViewModel(application: Application) : AndroidViewModel(appli
 
     fun submitButtonClick() {
 
-        if (emailValid() == null && validPassword() == null) {
+//        val email: String = emailText.value.toString()
+//        val password: String = passwordText.value.toString()
+//        val userName: String = userNameText.value.toString()
+//
+//        if (email != "" && password != "" && userName != "") {
+//            resetField()
+//            Toast.makeText(
+//                getApplication(),
+//                "Successfully logged",
+//                Toast.LENGTH_SHORT
+//            ).show()
+//        } else {
+//            emailTextHelper.value = "*Enter value"
+//            passwordTextHelper.value = "*Enter value"
+//            userNameTextHelper.value = "*Enter value"
+//        }
+
+        if (emailValid() == null && validPassword() == null && validUsername() == null) {
             val email: String = emailText.value.toString()
             val password: String = passwordText.value.toString()
+            val userName: String = userNameText.value.toString()
             try {
                 firebaseAuth.createUserWithEmailAndPassword(email, password)
                     .addOnCompleteListener(secondActivity.newInstance()) {
 
                         if (it.isSuccessful) {
                             resetField()
-                            Toast.makeText(getApplication(), "Successfully logged", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(
+                                getApplication(),
+                                "Successfully logged",
+                                Toast.LENGTH_SHORT
+                            ).show()
                         } else {
                             Toast.makeText(
                                 getApplication(),
