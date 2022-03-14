@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.kotlinlearning.R
+import com.example.kotlinlearning.viewModel.RegisterViewModel
 
 class RegisterFragment : Fragment() {
 

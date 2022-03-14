@@ -1,4 +1,4 @@
-package com.example.kotlinlearning.fragment
+package com.example.kotlinlearning.viewModel
 
 import androidx.lifecycle.ViewModel
 

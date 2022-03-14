@@ -1,6 +1,5 @@
-package com.example.kotlinlearning.fragment
+package com.example.kotlinlearning.viewModel
 
-import android.annotation.SuppressLint
 import android.app.Activity
 import android.util.Log
 import android.util.Patterns
@@ -11,8 +10,12 @@ import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.kotlinlearning.R
+import com.example.kotlinlearning.fragment.NewsFragment
+import com.example.kotlinlearning.fragment.RegisterFragment
 import com.example.kotlinlearning.repository.FirebaseRepository
 import com.example.kotlinlearning.utils.Utils
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 
 class LoginViewModel : ViewModel() {
     // TODO: Implement the ViewModel
@@ -20,7 +23,9 @@ class LoginViewModel : ViewModel() {
     var EmailLogin = MutableLiveData<String?>()
     var PasswordLogin = MutableLiveData<String?>()
     var EmailError = MutableLiveData<String?>()
+    var EmailErrorVisible = MutableLiveData<Boolean>()
     var PasswordError = MutableLiveData<String?>()
+    var PasswordErrorVisible = MutableLiveData<Boolean>()
     var EmailRegister = MutableLiveData<String>()
     var PasswordRegister = MutableLiveData<String>()
     var NameRegister = MutableLiveData<String>()
@@ -29,14 +34,28 @@ class LoginViewModel : ViewModel() {
     var NameRegisterError = MutableLiveData<String>()
     var ForgotPassword = MutableLiveData<String>()
     var ForgotError = MutableLiveData<String>()
+    val firebaseAuth: FirebaseAuth = FirebaseAuth.getInstance()
+    lateinit var loginLiveData: MutableLiveData<FirebaseUser>
+//    val errorMessage = MutableLiveData<Int>()
 
-    @SuppressLint("StaticFieldLeak")
+    //    interface LoginViewModel {
+//        val errorMessage: LiveData<Int>
+//    }
+    init {
+        EmailLogin.value = ""
+        PasswordLogin.value = ""
+        EmailError.value = ""
+        EmailErrorVisible.value = false
+        PasswordError.value = ""
+        PasswordErrorVisible.value = false
+    }
+
     private lateinit var activity: Activity
     lateinit var repository: FirebaseRepository
 
     fun getActivity(activity: Activity) {
         this.activity = activity
-        this.repository= FirebaseRepository(activity)
+        this.repository = FirebaseRepository(activity)
     }
 
     fun onRegisterClick() {
@@ -69,11 +88,28 @@ class LoginViewModel : ViewModel() {
             val utils = Utils()
             if (utils.isNetworkConnectionAvailable(activity)) {
                 if (validateLogin()) {
-                    val email: String? =EmailLogin.value;
-                    val password:String?=PasswordLogin.value
-                    repository.login(email,password)
-                    EmailLogin.value = null
-                    PasswordLogin.value = null
+                    val email: String? = EmailLogin.value;
+                    val password: String? = PasswordLogin.value
+                    try {
+                        if (email != null && password != null) {
+                            firebaseAuth.signInWithEmailAndPassword(email, password)
+                                .addOnCompleteListener(activity) {
+                                    if (it.isSuccessful) {
+                                        val fragment = NewsFragment.newInstance();
+                                        val transaction =
+                                            (activity as AppCompatActivity).supportFragmentManager.beginTransaction()
+                                        transaction.replace(R.id.frameLayoutContainer, fragment)
+                                        transaction.commit()
+                                        resetTextfields()
+                                    } else {
+                                        Log.e("Firebase error==> ", it.exception.toString())
+                                    }
+                                }
+                        }
+
+                    } catch (exception: Exception) {
+                        Log.e("Error==>", exception.message.toString())
+                    }
                 }
             } else {
                 Toast.makeText(
@@ -87,22 +123,41 @@ class LoginViewModel : ViewModel() {
         }
     }
 
+    private fun resetTextfields() {
+        EmailLogin.value = ""
+        PasswordLogin.value = ""
+        EmailErrorVisible.value = false
+        PasswordErrorVisible.value = false
+    }
+
     fun validateLogin(): Boolean {
-        EmailError.setValue(null)
-        PasswordError.setValue(null)
+//        EmailError.setValue(null)
+//        PasswordError.setValue(null)
         var valid = true
         try {
             if (EmailLogin.value == null || EmailLogin.value!!.isEmpty()) {
-                EmailError.setValue("Please enter email address.")
+                EmailErrorVisible.value = true
+                EmailError.value = "Please enter email address."
                 valid = false
+            } else {
+                EmailErrorVisible.value = false
+                EmailError.value = ""
             }
             if (PasswordLogin.value == null || PasswordLogin.value!!.isEmpty()) {
-                PasswordError.setValue("Please enter the password.")
+                PasswordErrorVisible.value = true
+                PasswordError.value = "Please enter the password."
                 valid = false
+            } else {
+                PasswordErrorVisible.value = false
+                PasswordError.value = ""
             }
             if (!isEmailValid(EmailLogin.value)) {
-                EmailError.setValue("Please enter a valid email address.")
+                EmailErrorVisible.value = true
+                EmailError.value = "Please enter a valid email address."
                 valid = false
+            } else {
+                EmailErrorVisible.value = false
+                EmailError.value = ""
             }
         } catch (exception: java.lang.Exception) {
             Log.e("Error ==> ", "" + exception)

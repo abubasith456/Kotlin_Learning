@@ -6,8 +6,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.example.kotlinlearning.R
 import com.example.kotlinlearning.databinding.LoginFragmentBinding
+import com.example.kotlinlearning.viewModel.LoginViewModel
 
 class LoginFragment : Fragment() {
 
