@@ -12,13 +12,13 @@ import com.example.kotlinlearning.model.detailsModel.DetailsModel
 import com.example.kotlinlearning.viewModel.NewsDetailsViewModel
 
 class NewsDetailsFragment(
-    val title: String,
-    val description: String,
-    val content: String,
-    val urlToImage: String,
-    val url: String,
-    val author: String,
-    val publishedAt: String
+    val title: String?,
+    val description: String?,
+    val content: String?,
+    val urlToImage: String?,
+    val url: String?,
+    val author: String?,
+    val publishedAt: String?
 ) : Fragment() {
 
     private lateinit var viewModel: NewsDetailsViewModel
@@ -36,8 +36,16 @@ class NewsDetailsFragment(
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(this).get(NewsDetailsViewModel::class.java)
-        DetailsModel(title, description, author, publishedAt, urlToImage, url, content)
+        detailsModel=DetailsModel(title, description, author, publishedAt, urlToImage, url, content)
+        binding.detailsModel=detailsModel
+        viewModel.getActivity(activity)
+        viewModel.insertToDB(title,description,urlToImage,author,publishedAt)
         Toast.makeText(activity, title, Toast.LENGTH_SHORT).show()
     }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+    }
+
 
 }
