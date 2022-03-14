@@ -10,6 +10,7 @@ import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.kotlinlearning.R
+import com.example.kotlinlearning.fragment.LoginFragment
 import com.example.kotlinlearning.fragment.NewsFragment
 import com.example.kotlinlearning.fragment.RegisterFragment
 import com.example.kotlinlearning.repository.FirebaseRepository
@@ -19,7 +20,6 @@ import com.google.firebase.auth.FirebaseUser
 
 class LoginViewModel : ViewModel() {
     // TODO: Implement the ViewModel
-
     var EmailLogin = MutableLiveData<String?>()
     var PasswordLogin = MutableLiveData<String?>()
     var EmailError = MutableLiveData<String?>()
@@ -59,11 +59,11 @@ class LoginViewModel : ViewModel() {
     }
 
     fun onRegisterClick() {
-        val registerFragmentFragment: Fragment = RegisterFragment()
+        val fragment: Fragment = RegisterFragment.newInstance()
         val transaction: FragmentTransaction =
             (activity as AppCompatActivity).supportFragmentManager.beginTransaction()
 //            activity.getSupportFragmentManager().beginTransaction()
-        transaction.replace(R.id.frameLayoutContainer, registerFragmentFragment)
+        transaction.replace(R.id.frameLayoutContainer, fragment)
         transaction.addToBackStack(null)
         transaction.commit()
     }

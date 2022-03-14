@@ -34,7 +34,6 @@ class LoginFragment : Fragment() {
         fragmentBinding.apply {
             this.loginViewModel=viewModel
         }
-        // TODO: Use the ViewModel
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

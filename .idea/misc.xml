@@ -11,8 +11,9 @@
         <entry key="app/src/main/res/layout/list_view_items.xml" value="0.34707997639973964" />
         <entry key="app/src/main/res/layout/list_view_row_news.xml" value="0.12864583333333332" />
         <entry key="app/src/main/res/layout/login_fragment.xml" value="0.16145833333333334" />
+        <entry key="app/src/main/res/layout/news_details_fragment.xml" value="0.14895833333333333" />
         <entry key="app/src/main/res/layout/news_fragment.xml" value="0.24791666666666667" />
-        <entry key="app/src/main/res/layout/register_fragment.xml" value="0.24791666666666667" />
+        <entry key="app/src/main/res/layout/register_fragment.xml" value="0.15118662516276044" />
       </map>
     </option>
   </component>

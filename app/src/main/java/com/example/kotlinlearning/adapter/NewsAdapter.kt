@@ -50,6 +50,7 @@ class NewsAdapter(var context: Context, var newsList: List<Article>) :
             this.listViewItemsBinding = listViewItemsBinding
         }
 
+
 //        var title: TextView
 //        var content: TextView
 //        var author: TextView

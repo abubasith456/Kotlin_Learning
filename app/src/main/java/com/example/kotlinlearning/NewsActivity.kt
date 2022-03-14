@@ -54,9 +54,6 @@ class NewsActivity : AppCompatActivity() {
                         newsAdapter.notifyDataSetChanged()
                         recyclerView.adapter = newsAdapter
 
-
-
-
                         for (myData in responseBody?.toList()!!) {
                             Log.e("Result==> ", myData.title)
                         }
