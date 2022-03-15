@@ -45,17 +45,18 @@ class NewsFragment : Fragment() {
         viewModel.getNewsHeadlines().observe(requireActivity()) {
 //            newsHeadLinesList.clear()
             Log.e("Articles==> ", it.get(0).title)
-            val size = newsHeadLinesList.size
-
-            for (i in 0..size) {
-                Log.e("For==>", i.toString())
-                newsHeadLinesList.add(it[i])
-            }
+//            val size = newsHeadLinesList.size
+//
+//            for (i in 0..size) {
+//                Log.e("For==>", i.toString())
+//                newsHeadLinesList.add(it[i])
+//            }
 //            for (i in 0..size - 1) {
 //                Log.e("For==>",i.toString())
 //                newsHeadLinesList.add(it[i])
 //            }
-            newsAdapter = NewsAdapter(requireActivity(), newsHeadLinesList)
+            newsAdapter = NewsAdapter(requireActivity(), it)
+            Log.e("Articles size==> ", it.size.toString())
             newsAdapter.notifyDataSetChanged()
             binding.recyclerView.adapter = newsAdapter
 

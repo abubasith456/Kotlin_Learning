@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+        
+        <data>
+                <variable
+                    name="newsCategoryViewModel"
+                    type="com.example.kotlinlearning.viewModel.NewsCategoryViewModel" />
+        </data>
+    
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragment.NewsCategoryFragment">
+
+<!--    <FrameLayout-->
+<!--        android:id="@+id/frameLayoutRecyclerView"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:layout_marginTop="@dimen/_40sdp">-->
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewNewsCategory"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:listitem="@layout/list_view_items" />
+
+<!--    </FrameLayout>-->
+
+</FrameLayout>
+</layout>
