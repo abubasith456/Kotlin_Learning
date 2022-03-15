@@ -106,7 +106,6 @@ class LoginViewModel : ViewModel() {
                                     }
                                 }
                         }
-
                     } catch (exception: Exception) {
                         Log.e("Error==>", exception.message.toString())
                     }

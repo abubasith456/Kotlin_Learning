@@ -5,17 +5,17 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 
-@Entity(tableName = "offline_news_headlines")
+@Entity(tableName = "headline_news")
 class NewsEntity {
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "news_id")
     var id: Int = 0
 
     @ColumnInfo(name = "news_title")
-    var title: String = ""
+    var title: String? = null
 
     @ColumnInfo(name = "news_description")
-    var description: String = ""
+    var description: String? = null
 
     @ColumnInfo(name = "news_imageUrl")
     var imageUrl: String? = null

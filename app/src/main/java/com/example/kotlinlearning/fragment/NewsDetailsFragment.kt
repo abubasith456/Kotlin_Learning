@@ -15,8 +15,8 @@ import com.example.kotlinlearning.viewModel.NewsDetailsViewModel
 
 class NewsDetailsFragment(
     val title: String,
-    val description: String,
-    val content: String,
+    val description: String?,
+    val content: String?,
     val urlToImage: String?,
     val url: String?,
     val author: String?,
@@ -43,14 +43,13 @@ class NewsDetailsFragment(
         binding.detailsModel = detailsModel
         activity?.let { viewModel.getActivity(it) }
         val news = NewsEntity()
-        news.id = id
+        news.id = 0
         news.author = author
         news.description = description
         news.imageUrl = urlToImage
         news.publishedAt = publishedAt
         news.title = title
         viewModel.insertNewsInfo(news)
-        Toast.makeText(activity, title, Toast.LENGTH_SHORT).show()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

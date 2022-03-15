@@ -7,7 +7,7 @@ import androidx.room.RoomDatabase
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 
-@Database(entities = [NewsEntity::class], version = 2)
+@Database(entities = [NewsEntity::class], version = 1)
 abstract class RoomAppDb: RoomDatabase() {
 
 
@@ -20,7 +20,7 @@ abstract class RoomAppDb: RoomDatabase() {
             if(INSTANCE == null ) {
 
                 INSTANCE = Room.databaseBuilder<RoomAppDb>(
-                    context.applicationContext, RoomAppDb::class.java, "OFFLINE_NEWS"
+                    context.applicationContext, RoomAppDb::class.java, "HEADLINE_NEWS"
                 )
                     .allowMainThreadQueries()
                     .build()

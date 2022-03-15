@@ -9,7 +9,7 @@ import androidx.room.Dao
 
 @Dao
 interface Dao {
-    @Query("SELECT * FROM offline_news_headlines ORDER BY news_id ASC")
+    @Query("SELECT * FROM headline_news ORDER BY news_id ASC")
     fun getAllNews(): List<NewsEntity>?
 
     @Insert
