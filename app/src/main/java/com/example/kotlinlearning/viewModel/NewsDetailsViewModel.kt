@@ -1,41 +1,26 @@
 package com.example.kotlinlearning.viewModel
 
 import android.app.Activity
-import androidx.fragment.app.FragmentActivity
-import androidx.lifecycle.ViewModel
-import com.example.kotlinlearning.db.AppDatabase
-import com.example.kotlinlearning.db.News
+import android.app.Application
+import android.widget.Toast
+import androidx.lifecycle.*
+import com.example.kotlinlearning.db.NewsEntity
+import com.example.kotlinlearning.db.RoomAppDb
+import com.example.kotlinlearning.repository.DBRepository
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
-class NewsDetailsViewModel : ViewModel() {
+class NewsDetailsViewModel(application: Application) : AndroidViewModel(application) {
+
 
     lateinit var activity: Activity
-
-    fun getActivity(activity: Activity?) {
-        if (activity != null) {
-            this.activity = activity
-        }
+    fun getActivity(activity: Activity) {
+        this.activity = activity
     }
 
-    fun insertToDB(
-        title: String?,
-        description: String?,
-        urlToImage: String?,
-        author: String?,
-        publishedAt: String?
-    ) {
-
-        val db: AppDatabase? = null
-        db?.getDbInstance(activity)
-        val news: News? = null
-        news?.title = title
-        news?.description = description
-        news?.imageUrl = urlToImage
-        news?.author = author
-        news?.publishedAt = publishedAt
-        if (news != null) {
-            db?.userDao()?.insertNews(news)
-        }
-
+    fun insertNewsInfo(entity: NewsEntity) {
+        val userDao = RoomAppDb.getAppDatabase(activity.applicationContext)?.userDao()
+        userDao?.insertNews(entity)
     }
 
 }

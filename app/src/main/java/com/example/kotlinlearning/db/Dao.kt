@@ -1,21 +1,23 @@
 package com.example.kotlinlearning.db
 
+import androidx.lifecycle.LiveData
+import androidx.room.*
 import androidx.room.Dao
-import androidx.room.Delete
-import androidx.room.Insert
-import androidx.room.Query
 
 
 //Data access object (Dao)
 
 @Dao
 interface Dao {
-    @Query("SELECT * FROM news")
-    fun getNews(): List<News>
+    @Query("SELECT * FROM offline_news_headlines ORDER BY news_id ASC")
+    fun getAllNews(): List<NewsEntity>?
 
     @Insert
-    fun insertNews(vararg news: News)
+    fun insertNews(news: NewsEntity?)
 
     @Delete
-    fun deleteNews(news: News)
+    fun deleteNews(news: NewsEntity?)
+
+    @Update
+    fun updateNews(news: NewsEntity?)
 }

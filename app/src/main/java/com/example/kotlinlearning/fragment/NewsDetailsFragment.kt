@@ -2,19 +2,21 @@ package com.example.kotlinlearning.fragment
 
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import com.example.kotlinlearning.databinding.NewsDetailsFragmentBinding
+import com.example.kotlinlearning.db.NewsEntity
 import com.example.kotlinlearning.model.detailsModel.DetailsModel
 import com.example.kotlinlearning.viewModel.NewsDetailsViewModel
 
 class NewsDetailsFragment(
-    val title: String?,
-    val description: String?,
-    val content: String?,
+    val title: String,
+    val description: String,
+    val content: String,
     val urlToImage: String?,
     val url: String?,
     val author: String?,
@@ -36,10 +38,18 @@ class NewsDetailsFragment(
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(this).get(NewsDetailsViewModel::class.java)
-        detailsModel=DetailsModel(title, description, author, publishedAt, urlToImage, url, content)
-        binding.detailsModel=detailsModel
-        viewModel.getActivity(activity)
-        viewModel.insertToDB(title,description,urlToImage,author,publishedAt)
+        detailsModel =
+            DetailsModel(title, description, author, publishedAt, urlToImage, url, content)
+        binding.detailsModel = detailsModel
+        activity?.let { viewModel.getActivity(it) }
+        val news = NewsEntity()
+        news.id = id
+        news.author = author
+        news.description = description
+        news.imageUrl = urlToImage
+        news.publishedAt = publishedAt
+        news.title = title
+        viewModel.insertNewsInfo(news)
         Toast.makeText(activity, title, Toast.LENGTH_SHORT).show()
     }
 

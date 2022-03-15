@@ -48,20 +48,10 @@ class NewsAdapter(var context: Context, var newsList: List<Article>) :
             transaction.commit()
 
         }
-
-//        val article: Article = newsList.get(position)
-//        holder.holder.title.text = newsList[position].title
-//        holder.content.text = newsList[position].content
-//        holder.author.text = newsList[position].author
-//        holder.publishedAt.text = newsList[position].publishedAt
     }
 
     override fun getItemCount(): Int {
-        return if (newsList != null) {
-            newsList.size
-        } else {
-            0
-        }
+        return newsList.size
     }
 
     class NewsViewHolder(listViewItemsBinding: ListViewItemsBinding) :
@@ -73,20 +63,6 @@ class NewsAdapter(var context: Context, var newsList: List<Article>) :
         init {
             this.listViewItemsBinding = listViewItemsBinding
         }
-
-
-//        var title: TextView
-//        var content: TextView
-//        var author: TextView
-//        var publishedAt: TextView
-//
-//        init {
-//            title = itemView.findViewById(R.id.textViewTitle)
-//            content = itemView.findViewById(R.id.textViewContent)
-//            author = itemView.findViewById(R.id.textViewAuthor)
-//            publishedAt = itemView.findViewById(R.id.textViewPublished)
-//        }
-
     }
 
 }

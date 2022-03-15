@@ -11,11 +11,13 @@
         <entry key="app/src/main/res/layout/activity_second.xml" value="0.16594696044921875" />
         <entry key="app/src/main/res/layout/fragment_blank.xml" value="0.146875" />
         <entry key="app/src/main/res/layout/list_view_items.xml" value="0.15581868489583336" />
+        <entry key="app/src/main/res/layout/list_view_offline_db.xml" value="0.24791666666666667" />
         <entry key="app/src/main/res/layout/list_view_row_news.xml" value="0.12864583333333332" />
         <entry key="app/src/main/res/layout/login_fragment.xml" value="0.16145833333333334" />
         <entry key="app/src/main/res/layout/news_category_fragment.xml" value="0.24791666666666667" />
         <entry key="app/src/main/res/layout/news_details_fragment.xml" value="0.14895833333333333" />
         <entry key="app/src/main/res/layout/news_fragment.xml" value="0.24791666666666667" />
+        <entry key="app/src/main/res/layout/offline_news_fragment.xml" value="0.24791666666666667" />
         <entry key="app/src/main/res/layout/register_fragment.xml" value="0.15118662516276044" />
       </map>
     </option>

@@ -62,17 +62,17 @@ class NewsFragment : Fragment() {
 
         }
 
-        viewModel.getCategoryHeadlines().observe(requireActivity()) {
-            newsHeadLinesList.clear()
-            val size = newsHeadLinesList.size
-            for (i in 0..size) {
-                Log.e("For==>", i.toString())
-                newsHeadLinesList.add(it[i])
-            }
-            newsAdapter = NewsAdapter(requireActivity(), newsHeadLinesList)
-            newsAdapter.notifyDataSetChanged()
-            binding.recyclerView.adapter = newsAdapter
-        }
+//        viewModel.getCategoryHeadlines().observe(requireActivity()) {
+//            newsHeadLinesList.clear()
+//            val size = newsHeadLinesList.size
+//            for (i in 0..size) {
+//                Log.e("For==>", i.toString())
+//                newsHeadLinesList.add(it[i])
+//            }
+//            newsAdapter = NewsAdapter(requireActivity(), newsHeadLinesList)
+//            newsAdapter.notifyDataSetChanged()
+//            binding.recyclerView.adapter = newsAdapter
+//        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

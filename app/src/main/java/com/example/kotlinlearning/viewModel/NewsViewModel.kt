@@ -6,19 +6,21 @@ import android.content.DialogInterface
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.kotlinlearning.R
 import com.example.kotlinlearning.adapter.NewsAdapter
 import com.example.kotlinlearning.databinding.NewsFragmentBinding
+import com.example.kotlinlearning.fragment.LoginFragment
 import com.example.kotlinlearning.fragment.NewsCategoryFragment
 import com.example.kotlinlearning.fragment.NewsFragment
+import com.example.kotlinlearning.fragment.OfflineNewsFragment
 import com.example.kotlinlearning.model.Article
 import com.example.kotlinlearning.model.Category
 import com.example.kotlinlearning.model.NewsResponse
 import com.example.kotlinlearning.rest_api.BCRequests
+import com.google.firebase.auth.FirebaseAuth
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -31,11 +33,11 @@ class NewsViewModel : ViewModel() {
     private val country = "in"
     private val category = "general"
     lateinit var newsAdapter: NewsAdapter
+    val firebaseAuth:FirebaseAuth= FirebaseAuth.getInstance()
     private val newsHeadlines: MutableLiveData<List<Article>> =
         MutableLiveData<List<Article>>()
-
-    private val newsCategoryHeadlines: MutableLiveData<List<Article>> =
-        MutableLiveData<List<Article>>()
+//    private val newsCategoryHeadlines: MutableLiveData<List<Article>> =
+//        MutableLiveData<List<Article>>()
 
 
     lateinit var activity: Activity
@@ -121,17 +123,42 @@ class NewsViewModel : ViewModel() {
             category.selectSettings,
             DialogInterface.OnClickListener { dialogInterface, which ->
                 val selectedCategory: String = category.selectSettings.get(which)
+                moveToselectedPage(selectedCategory);
                 Toast.makeText(
                     activity,
                     "" + selectedCategory,
                     Toast.LENGTH_SHORT
                 ).show()
             }).show()
+
+
     }
 
-    fun getCategoryHeadlines(): LiveData<List<Article>> {
-        return newsCategoryHeadlines
+    private fun moveToselectedPage(selectedCategory: String) {
+        try {
+            if (selectedCategory.equals("Offline news")) {
+                val fragment= OfflineNewsFragment()
+                val transaction =
+                    (activity as AppCompatActivity).supportFragmentManager.beginTransaction()
+                transaction.replace(R.id.frameLayoutContainer, fragment)
+                transaction.addToBackStack(null)
+                transaction.commit()
+            }else if (selectedCategory.equals("Logout")){
+                firebaseAuth.signOut()
+                val fragment=LoginFragment()
+                val transaction= (activity as AppCompatActivity).supportFragmentManager.beginTransaction()
+                transaction.replace(R.id.frameLayoutContainer, fragment)
+                transaction.commit()
+            }
+
+        } catch (e: Exception) {
+            Log.e("Api call error==> ", e.message.toString())
+        }
     }
+
+//    fun getCategoryHeadlines(): LiveData<List<Article>> {
+//        return newsCategoryHeadlines
+//    }
 
     fun getNewsHeadlines(): LiveData<List<Article>> {
         try {

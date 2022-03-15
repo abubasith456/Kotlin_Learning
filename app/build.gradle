@@ -59,8 +59,15 @@ dependencies {
     annotationProcessor 'com.github.bumptech.glide:compiler:4.8.0'
     // Multiple Screen Dimensions
     implementation 'com.intuit.sdp:sdp-android:1.0.6'
-    def room_version = "2.4.2"
+//    def room_version = "2.4.2"
+//
+//    implementation "androidx.room:room-runtime:$room_version"
+//    annotationProcessor "androidx.room:room-compiler:$room_version"
+//    def room = "1.1.1"
+//    implementation "android.arch.persistence.room:runtime:$room"
+//    annotationProcessor "android.arch.persistence.room:compiler:$room"
 
-    implementation "androidx.room:room-runtime:$room_version"
-    annotationProcessor "androidx.room:room-compiler:$room_version"
+    implementation 'androidx.room:room-runtime:2.5.0-alpha01'
+    kapt "androidx.room:room-compiler:2.5.0-alpha01"
+
 }

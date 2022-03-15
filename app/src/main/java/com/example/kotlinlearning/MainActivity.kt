@@ -13,6 +13,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.example.kotlinlearning.databinding.ActivityMainBinding
 import com.example.kotlinlearning.fragment.LoginFragment
+import com.example.kotlinlearning.fragment.NewsFragment
 import com.example.kotlinlearning.viewModel.ActivityModel
 
 lateinit var activityModel: ActivityModel
@@ -30,8 +31,20 @@ class MainActivity : AppCompatActivity() {
         }
         activityModel.getBinding(activityMainBinding)
         activityModel.getActivity(MainActivity::class.java)
-
-        setLoginFragment()
+        activityModel.checkExistUser().observe(this, Observer {
+            if (it) {
+                val fragment=NewsFragment()
+                val transaction: FragmentTransaction = supportFragmentManager.beginTransaction()
+                transaction.replace(R.id.frameLayoutContainer, fragment)
+                transaction.commit()
+            } else {
+                val fragment: Fragment = LoginFragment.newInstance()
+                val transaction: FragmentTransaction = supportFragmentManager.beginTransaction()
+                transaction.replace(R.id.frameLayoutContainer, fragment)
+                transaction.commit()
+            }
+        })
+//        setLoginFragment()
 
 //        activityModel.text.observe(this, Observer {
 //            Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
