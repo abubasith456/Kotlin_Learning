@@ -5,11 +5,15 @@ import android.app.AlertDialog
 import android.content.DialogInterface
 import android.util.Log
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.kotlinlearning.R
 import com.example.kotlinlearning.adapter.NewsAdapter
 import com.example.kotlinlearning.databinding.NewsFragmentBinding
+import com.example.kotlinlearning.fragment.NewsCategoryFragment
 import com.example.kotlinlearning.fragment.NewsFragment
 import com.example.kotlinlearning.model.Article
 import com.example.kotlinlearning.model.Category
@@ -65,42 +69,48 @@ class NewsViewModel : ViewModel() {
 
     private fun loadFilterItems(selectedCategory: String) {
 
-        try {
-            val call: Call<NewsResponse> =
-                BCRequests().bCRestService.getNewsData(country, selectedCategory, null, api)
-            call.enqueue(object : Callback<NewsResponse> {
-                override fun onResponse(
-                    call: Call<NewsResponse>,
-                    response: Response<NewsResponse>
-                ) {
-                    if (response.isSuccessful()) {
-                        Toast.makeText(
-                            activity,
-                            "Success",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                        val responseBody = response.body()?.articles
-//                        newsAdapter = responseBody?.let { NewsAdapter(activity, it) }!!
-//                        newsAdapter.notifyDataSetChanged()
-//                        binding.recyclerView.adapter = newsAdapter
-                        newsCategoryHeadlines.value = responseBody!!
-                    }
-                }
+        val fragment = NewsCategoryFragment(selectedCategory)
+        val transaction = (activity as AppCompatActivity).supportFragmentManager.beginTransaction()
+        transaction.replace(R.id.frameLayoutContainer, fragment)
+        transaction.addToBackStack(null)
+        transaction.commit()
 
-                override fun onFailure(call: Call<NewsResponse>, t: Throwable) {
-                    Toast.makeText(
-                        activity,
-                        t.message,
-                        Toast.LENGTH_SHORT
-                    )
-                        .show()
-                    Log.e("Result==> ", t.message.toString())
-                }
-            })
-
-        } catch (e: Exception) {
-            Log.e("Api call error==> ", e.message.toString())
-        }
+//        try {
+//            val call: Call<NewsResponse> =
+//                BCRequests().bCRestService.getNewsData(country, selectedCategory, null, api)
+//            call.enqueue(object : Callback<NewsResponse> {
+//                override fun onResponse(
+//                    call: Call<NewsResponse>,
+//                    response: Response<NewsResponse>
+//                ) {
+//                    if (response.isSuccessful()) {
+//                        Toast.makeText(
+//                            activity,
+//                            "Success",
+//                            Toast.LENGTH_SHORT
+//                        ).show()
+//                        val responseBody = response.body()?.articles
+////                        newsAdapter = responseBody?.let { NewsAdapter(activity, it) }!!
+////                        newsAdapter.notifyDataSetChanged()
+////                        binding.recyclerView.adapter = newsAdapter
+//                        newsCategoryHeadlines.value = responseBody!!
+//                    }
+//                }
+//
+//                override fun onFailure(call: Call<NewsResponse>, t: Throwable) {
+//                    Toast.makeText(
+//                        activity,
+//                        t.message,
+//                        Toast.LENGTH_SHORT
+//                    )
+//                        .show()
+//                    Log.e("Result==> ", t.message.toString())
+//                }
+//            })
+//
+//        } catch (e: Exception) {
+//            Log.e("Api call error==> ", e.message.toString())
+//        }
 
     }
 
