@@ -3,6 +3,7 @@ package com.example.kotlinlearning.viewModel
 import android.app.Activity
 import android.app.AlertDialog
 import android.content.DialogInterface
+import android.content.res.Resources
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -14,7 +15,6 @@ import com.example.kotlinlearning.adapter.NewsAdapter
 import com.example.kotlinlearning.databinding.NewsFragmentBinding
 import com.example.kotlinlearning.fragment.LoginFragment
 import com.example.kotlinlearning.fragment.NewsCategoryFragment
-import com.example.kotlinlearning.fragment.NewsFragment
 import com.example.kotlinlearning.fragment.OfflineNewsFragment
 import com.example.kotlinlearning.model.Article
 import com.example.kotlinlearning.model.Category
@@ -28,8 +28,6 @@ import retrofit2.Response
 class NewsViewModel : ViewModel() {
 
     lateinit var binding: NewsFragmentBinding
-
-    private val api = "a49844b91eb748bb9d3458aa0794db69"
     private val country = "in"
     private val category = "general"
     lateinit var newsAdapter: NewsAdapter
@@ -101,12 +99,11 @@ class NewsViewModel : ViewModel() {
         }
     }
 
-//    fun getCategoryHeadlines(): LiveData<List<Article>> {
-//        return newsCategoryHeadlines
-//    }
 
     fun getNewsHeadlines(): LiveData<List<Article>> {
         try {
+            val res: Resources = activity.getResources()
+            val api =res.getString(R.string.api)
             val call: Call<NewsResponse> =
                 BCRequests().bCRestService.getNewsData(country, category, null, api)
             call.enqueue(object : Callback<NewsResponse> {
