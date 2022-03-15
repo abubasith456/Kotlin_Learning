@@ -5,6 +5,6 @@
     <string name="email">Email</string>
     <string name="username">Username</string>
     <string name="register_page">Register page</string>
-<!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="api">"a49844b91eb748bb9d3458aa0794db69"</string>
 </resources>

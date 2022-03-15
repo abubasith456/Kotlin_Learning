@@ -33,15 +33,11 @@ class NewsViewModel : ViewModel() {
     private val country = "in"
     private val category = "general"
     lateinit var newsAdapter: NewsAdapter
-    val firebaseAuth:FirebaseAuth= FirebaseAuth.getInstance()
+    val firebaseAuth: FirebaseAuth = FirebaseAuth.getInstance()
     private val newsHeadlines: MutableLiveData<List<Article>> =
         MutableLiveData<List<Article>>()
-//    private val newsCategoryHeadlines: MutableLiveData<List<Article>> =
-//        MutableLiveData<List<Article>>()
-
 
     lateinit var activity: Activity
-    lateinit var newsFragment: Class<NewsFragment>
 
     fun getActivity(activity: Activity) {
         this.activity = activity
@@ -56,11 +52,6 @@ class NewsViewModel : ViewModel() {
                     category.selectCategory,
                     DialogInterface.OnClickListener { dialog, which ->
                         val selectedCategory: String = category.selectCategory.get(which)
-                        Toast.makeText(
-                            activity,
-                            "" + selectedCategory,
-                            Toast.LENGTH_SHORT
-                        ).show()
                         loadFilterItems(selectedCategory)
                     }).show()
 
@@ -70,50 +61,11 @@ class NewsViewModel : ViewModel() {
     }
 
     private fun loadFilterItems(selectedCategory: String) {
-
         val fragment = NewsCategoryFragment(selectedCategory)
         val transaction = (activity as AppCompatActivity).supportFragmentManager.beginTransaction()
         transaction.replace(R.id.frameLayoutContainer, fragment)
         transaction.addToBackStack(null)
         transaction.commit()
-
-//        try {
-//            val call: Call<NewsResponse> =
-//                BCRequests().bCRestService.getNewsData(country, selectedCategory, null, api)
-//            call.enqueue(object : Callback<NewsResponse> {
-//                override fun onResponse(
-//                    call: Call<NewsResponse>,
-//                    response: Response<NewsResponse>
-//                ) {
-//                    if (response.isSuccessful()) {
-//                        Toast.makeText(
-//                            activity,
-//                            "Success",
-//                            Toast.LENGTH_SHORT
-//                        ).show()
-//                        val responseBody = response.body()?.articles
-////                        newsAdapter = responseBody?.let { NewsAdapter(activity, it) }!!
-////                        newsAdapter.notifyDataSetChanged()
-////                        binding.recyclerView.adapter = newsAdapter
-//                        newsCategoryHeadlines.value = responseBody!!
-//                    }
-//                }
-//
-//                override fun onFailure(call: Call<NewsResponse>, t: Throwable) {
-//                    Toast.makeText(
-//                        activity,
-//                        t.message,
-//                        Toast.LENGTH_SHORT
-//                    )
-//                        .show()
-//                    Log.e("Result==> ", t.message.toString())
-//                }
-//            })
-//
-//        } catch (e: Exception) {
-//            Log.e("Api call error==> ", e.message.toString())
-//        }
-
     }
 
     fun onSettingClick() {
@@ -124,33 +76,26 @@ class NewsViewModel : ViewModel() {
             DialogInterface.OnClickListener { dialogInterface, which ->
                 val selectedCategory: String = category.selectSettings.get(which)
                 moveToselectedPage(selectedCategory);
-                Toast.makeText(
-                    activity,
-                    "" + selectedCategory,
-                    Toast.LENGTH_SHORT
-                ).show()
             }).show()
-
-
     }
 
     private fun moveToselectedPage(selectedCategory: String) {
         try {
             if (selectedCategory.equals("Offline news")) {
-                val fragment= OfflineNewsFragment()
+                val fragment = OfflineNewsFragment()
                 val transaction =
                     (activity as AppCompatActivity).supportFragmentManager.beginTransaction()
                 transaction.replace(R.id.frameLayoutContainer, fragment)
                 transaction.addToBackStack(null)
                 transaction.commit()
-            }else if (selectedCategory.equals("Logout")){
+            } else if (selectedCategory.equals("Logout")) {
                 firebaseAuth.signOut()
-                val fragment=LoginFragment()
-                val transaction= (activity as AppCompatActivity).supportFragmentManager.beginTransaction()
+                val fragment = LoginFragment()
+                val transaction =
+                    (activity as AppCompatActivity).supportFragmentManager.beginTransaction()
                 transaction.replace(R.id.frameLayoutContainer, fragment)
                 transaction.commit()
             }
-
         } catch (e: Exception) {
             Log.e("Api call error==> ", e.message.toString())
         }
@@ -176,11 +121,6 @@ class NewsViewModel : ViewModel() {
                             Toast.LENGTH_SHORT
                         ).show()
                         val responseBody = response.body()?.articles
-                        val responseTotal = response.body()?.totalResults
-
-//                        newsAdapter = responseBody?.let { NewsAdapter(activity, it) }!!
-//                        newsAdapter.notifyDataSetChanged()
-//                        binding.recyclerView.adapter = newsAdapter
                         newsHeadlines.value = responseBody!!
                     }
                 }

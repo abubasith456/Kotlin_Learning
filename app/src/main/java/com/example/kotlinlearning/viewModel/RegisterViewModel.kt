@@ -5,8 +5,11 @@ import android.app.Activity
 import android.util.Log
 import android.util.Patterns
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.kotlinlearning.R
+import com.example.kotlinlearning.fragment.NewsFragment
 import com.example.kotlinlearning.utils.Utils
 import com.google.firebase.auth.FirebaseAuth
 
@@ -46,13 +49,16 @@ class RegisterViewModel : ViewModel() {
                     firebaseAuth.createUserWithEmailAndPassword(email, password)
                         .addOnCompleteListener(activity) {
                             if (it.isSuccessful) {
-
                                 Toast.makeText(
                                     activity,
                                     "Created successfully",
                                     Toast.LENGTH_SHORT
                                 ).show()
-
+                                val fragment = NewsFragment.newInstance();
+                                val transaction =
+                                    (activity as AppCompatActivity).supportFragmentManager.beginTransaction()
+                                transaction.replace(R.id.frameLayoutContainer, fragment)
+                                transaction.commit()
 
                             } else {
                                 Toast.makeText(
