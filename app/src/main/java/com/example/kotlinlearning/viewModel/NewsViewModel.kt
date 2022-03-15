@@ -103,9 +103,13 @@ class NewsViewModel : ViewModel() {
     fun getNewsHeadlines(): LiveData<List<Article>> {
         try {
             val res: Resources = activity.getResources()
-            val api =res.getString(R.string.api)
             val call: Call<NewsResponse> =
-                BCRequests().bCRestService.getNewsData(country, category, null, api)
+                BCRequests().bCRestService.getNewsData(
+                    country,
+                    category,
+                    null,
+                    res.getString(R.string.api)
+                )
             call.enqueue(object : Callback<NewsResponse> {
                 override fun onResponse(
                     call: Call<NewsResponse>,
