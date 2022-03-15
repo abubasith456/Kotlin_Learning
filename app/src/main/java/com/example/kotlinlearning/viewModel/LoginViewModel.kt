@@ -10,6 +10,8 @@ import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.kotlinlearning.R
+import com.example.kotlinlearning.databinding.LoginFragmentBinding
+import com.example.kotlinlearning.fragment.ForgotPasswordFragment
 import com.example.kotlinlearning.fragment.LoginFragment
 import com.example.kotlinlearning.fragment.NewsFragment
 import com.example.kotlinlearning.fragment.RegisterFragment
@@ -51,11 +53,16 @@ class LoginViewModel : ViewModel() {
     }
 
     private lateinit var activity: Activity
+    private lateinit var fragmentBinding: LoginFragmentBinding
     lateinit var repository: FirebaseRepository
 
     fun getActivity(activity: Activity) {
         this.activity = activity
         this.repository = FirebaseRepository(activity)
+    }
+
+    fun getBinding(fragmentBinding: LoginFragmentBinding) {
+        this.fragmentBinding = fragmentBinding
     }
 
     fun onRegisterClick() {
@@ -102,7 +109,11 @@ class LoginViewModel : ViewModel() {
                                         transaction.commit()
                                         resetTextfields()
                                     } else {
-                                        Log.e("Firebase error==> ", it.exception.toString())
+                                        Toast.makeText(
+                                            activity,
+                                            it.exception.toString(),
+                                            Toast.LENGTH_SHORT
+                                        ).show()
                                     }
                                 }
                         }
@@ -135,7 +146,8 @@ class LoginViewModel : ViewModel() {
         var valid = true
         try {
             if (EmailLogin.value == null || EmailLogin.value!!.isEmpty()) {
-                EmailErrorVisible.value = true
+                Toast.makeText(activity, "Please enter email address.", Toast.LENGTH_SHORT).show()
+                EmailErrorVisible.postValue(true)
                 EmailError.value = "Please enter email address."
                 valid = false
             } else {
@@ -143,6 +155,7 @@ class LoginViewModel : ViewModel() {
                 EmailError.value = ""
             }
             if (PasswordLogin.value == null || PasswordLogin.value!!.isEmpty()) {
+                Toast.makeText(activity, "Please enter the password.", Toast.LENGTH_SHORT).show()
                 PasswordErrorVisible.value = true
                 PasswordError.value = "Please enter the password."
                 valid = false
@@ -151,6 +164,8 @@ class LoginViewModel : ViewModel() {
                 PasswordError.value = ""
             }
             if (!isEmailValid(EmailLogin.value)) {
+                Toast.makeText(activity, "Please enter a valid email address.", Toast.LENGTH_SHORT)
+                    .show()
                 EmailErrorVisible.value = true
                 EmailError.value = "Please enter a valid email address."
                 valid = false
@@ -162,6 +177,20 @@ class LoginViewModel : ViewModel() {
             Log.e("Error ==> ", "" + exception)
         }
         return valid
+    }
+
+    fun onForgotClick() {
+        try {
+            val fragment: Fragment = ForgotPasswordFragment.newInstance()
+            val transaction: FragmentTransaction =
+                (activity as AppCompatActivity).supportFragmentManager.beginTransaction()
+//            activity.getSupportFragmentManager().beginTransaction()
+            transaction.replace(R.id.frameLayoutContainer, fragment)
+            transaction.addToBackStack(null)
+            transaction.commit()
+        } catch (exception: java.lang.Exception) {
+            Log.e("Error ==> ", "" + exception)
+        }
     }
 
     fun isEmailValid(value: String?): Boolean {

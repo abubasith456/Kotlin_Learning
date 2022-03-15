@@ -41,6 +41,49 @@ class NewsViewModel : ViewModel() {
         this.activity = activity
     }
 
+    fun getNewsHeadlines(): LiveData<List<Article>> {
+        try {
+            val res: Resources = activity.getResources()
+            val call: Call<NewsResponse> =
+                BCRequests().bCRestService.getNewsData(
+                    country,
+                    category,
+                    null,
+                    res.getString(R.string.api)
+                )
+            call.enqueue(object : Callback<NewsResponse> {
+                override fun onResponse(
+                    call: Call<NewsResponse>,
+                    response: Response<NewsResponse>
+                ) {
+                    if (response.isSuccessful()) {
+                        Toast.makeText(
+                            activity,
+                            "Success",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        val responseBody = response.body()?.articles
+                        newsHeadlines.value = responseBody!!
+                    }
+                }
+
+                override fun onFailure(call: Call<NewsResponse>, t: Throwable) {
+                    Toast.makeText(
+                        activity,
+                        t.message,
+                        Toast.LENGTH_SHORT
+                    )
+                        .show()
+                    Log.e("Result==> ", t.message.toString())
+                }
+            })
+
+        } catch (e: Exception) {
+            Log.e("Api call error==> ", e.message.toString())
+        }
+        return newsHeadlines
+    }
+
     fun onCategoryClick() {
         try {
             val category = Category()
@@ -98,50 +141,5 @@ class NewsViewModel : ViewModel() {
             Log.e("Api call error==> ", e.message.toString())
         }
     }
-
-
-    fun getNewsHeadlines(): LiveData<List<Article>> {
-        try {
-            val res: Resources = activity.getResources()
-            val call: Call<NewsResponse> =
-                BCRequests().bCRestService.getNewsData(
-                    country,
-                    category,
-                    null,
-                    res.getString(R.string.api)
-                )
-            call.enqueue(object : Callback<NewsResponse> {
-                override fun onResponse(
-                    call: Call<NewsResponse>,
-                    response: Response<NewsResponse>
-                ) {
-                    if (response.isSuccessful()) {
-                        Toast.makeText(
-                            activity,
-                            "Success",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                        val responseBody = response.body()?.articles
-                        newsHeadlines.value = responseBody!!
-                    }
-                }
-
-                override fun onFailure(call: Call<NewsResponse>, t: Throwable) {
-                    Toast.makeText(
-                        activity,
-                        t.message,
-                        Toast.LENGTH_SHORT
-                    )
-                        .show()
-                    Log.e("Result==> ", t.message.toString())
-                }
-            })
-
-        } catch (e: Exception) {
-            Log.e("Api call error==> ", e.message.toString())
-        }
-        return newsHeadlines
-    }
-
 
 }

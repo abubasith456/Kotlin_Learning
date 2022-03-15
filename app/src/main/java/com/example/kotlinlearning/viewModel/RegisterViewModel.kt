@@ -59,7 +59,6 @@ class RegisterViewModel : ViewModel() {
                                     (activity as AppCompatActivity).supportFragmentManager.beginTransaction()
                                 transaction.replace(R.id.frameLayoutContainer, fragment)
                                 transaction.commit()
-
                             } else {
                                 Toast.makeText(
                                     activity,

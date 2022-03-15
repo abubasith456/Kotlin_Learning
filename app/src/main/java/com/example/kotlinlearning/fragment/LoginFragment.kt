@@ -29,7 +29,9 @@ class LoginFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(this).get(LoginViewModel::class.java)
         viewModel.apply {
-            activity?.let { this.getActivity(it) }
+            activity?.let { this.getActivity(it)
+                this.getBinding(fragmentBinding)
+            }
         }
         fragmentBinding.apply {
             this.loginViewModel=viewModel
