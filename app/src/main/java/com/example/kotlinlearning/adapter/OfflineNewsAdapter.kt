@@ -18,19 +18,6 @@ class OfflineNewsAdapter(
 ) :
     RecyclerView.Adapter<OfflineNewsAdapter.OfflineNewsViewHolder>() {
 
-    class OfflineNewsViewHolder(listViewItemsBinding: ListViewOfflineDbBinding) :
-        RecyclerView.ViewHolder(listViewItemsBinding.root) {
-
-
-        var listViewItemsBinding: ListViewOfflineDbBinding
-
-        init {
-            this.listViewItemsBinding = listViewItemsBinding
-
-        }
-
-    }
-
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
@@ -41,7 +28,7 @@ class OfflineNewsAdapter(
         return OfflineNewsViewHolder(listViewItemsBinding)
     }
 
-    override fun onBindViewHolder(holder: OfflineNewsAdapter.OfflineNewsViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: OfflineNewsViewHolder, position: Int) {
 
         val news: NewsEntity = newsList.get(position)
         holder.listViewItemsBinding.newsEntity = news
@@ -52,7 +39,8 @@ class OfflineNewsAdapter(
                 val userDao = RoomAppDb.getAppDatabase(context.applicationContext)?.userDao()
                 userDao?.deleteNews(newsEntity)
                 newsList.removeAt(position)
-                notifyDataSetChanged()
+                notifyItemRemoved(position + 1)
+//                notifyDataSetChanged()
                 Toast.makeText(context, "Deleted", Toast.LENGTH_SHORT).show()
             } catch (exception: Exception) {
                 Log.e("Offline error==> ", exception.message.toString())
@@ -65,5 +53,14 @@ class OfflineNewsAdapter(
         return newsList.size
     }
 
+    class OfflineNewsViewHolder(listViewItemsBinding: ListViewOfflineDbBinding) :
+        RecyclerView.ViewHolder(listViewItemsBinding.root) {
+
+        var listViewItemsBinding: ListViewOfflineDbBinding
+
+        init {
+            this.listViewItemsBinding = listViewItemsBinding
+        }
+    }
 
 }
