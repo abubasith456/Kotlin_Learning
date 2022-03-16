@@ -94,7 +94,7 @@ class RegisterViewModel : ViewModel() {
         }
     }
 
-     fun clearEditTextField() {
+    fun clearEditTextField() {
         EmailRegister.value = null
         PasswordRegister.value = null
         NameRegister.value = null
