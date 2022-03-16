@@ -39,6 +39,8 @@ class OfflineNewsAdapter(
                 val userDao = RoomAppDb.getAppDatabase(context.applicationContext)?.userDao()
                 userDao?.deleteNews(newsEntity)
                 newsList.removeAt(position)
+                /* In java we notify adapter index is deleted be like
+                notifyItemRemoved(getAdapterPosition) */
                 notifyItemRemoved(position + 1)
 //                notifyDataSetChanged()
                 Toast.makeText(context, "Deleted", Toast.LENGTH_SHORT).show()
