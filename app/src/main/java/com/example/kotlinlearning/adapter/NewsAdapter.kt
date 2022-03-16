@@ -29,7 +29,6 @@ class NewsAdapter(var context: Context, var newsList: List<Article>) :
         val article: Article = newsList.get(position)
         holder.listViewItemsBinding.articles = article
         holder.listViewItemsBinding.executePendingBindings()
-
         holder.listViewItemsBinding.constarinLayout.setOnClickListener {
 
             val fragment = NewsDetailsFragment(

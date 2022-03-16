@@ -29,7 +29,6 @@ class OfflineNewsAdapter(
     }
 
     override fun onBindViewHolder(holder: OfflineNewsViewHolder, position: Int) {
-
         val news: NewsEntity = newsList.get(position)
         holder.listViewItemsBinding.newsEntity = news
         holder.listViewItemsBinding.linearLayoutDelete.setOnClickListener {
