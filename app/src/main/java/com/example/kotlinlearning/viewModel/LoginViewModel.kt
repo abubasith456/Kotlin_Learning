@@ -1,10 +1,12 @@
 package com.example.kotlinlearning.viewModel
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.util.Log
 import android.util.Patterns
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.ObservableField
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.MutableLiveData
@@ -12,95 +14,95 @@ import androidx.lifecycle.ViewModel
 import com.example.kotlinlearning.R
 import com.example.kotlinlearning.databinding.LoginFragmentBinding
 import com.example.kotlinlearning.fragment.ForgotPasswordFragment
-import com.example.kotlinlearning.fragment.LoginFragment
 import com.example.kotlinlearning.fragment.NewsFragment
 import com.example.kotlinlearning.fragment.RegisterFragment
-import com.example.kotlinlearning.repository.FirebaseRepository
 import com.example.kotlinlearning.utils.Utils
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
 
 class LoginViewModel : ViewModel() {
     // TODO: Implement the ViewModel
-    var EmailLogin: MutableLiveData<String?> = MutableLiveData()
-    var PasswordLogin: MutableLiveData<String?> = MutableLiveData()
-    var EmailError: MutableLiveData<String> = MutableLiveData()
-    var EmailErrorVisible: MutableLiveData<Boolean> = MutableLiveData()
-    var PasswordError: MutableLiveData<String> = MutableLiveData()
-    var PasswordErrorVisible: MutableLiveData<Boolean> = MutableLiveData()
-    var EmailRegister = MutableLiveData<String>()
-    var PasswordRegister = MutableLiveData<String>()
-    var NameRegister = MutableLiveData<String>()
-    var EmailRegisterError = MutableLiveData<String>()
-    var PasswordRegisterError = MutableLiveData<String>()
-    var NameRegisterError = MutableLiveData<String>()
-    var ForgotPassword = MutableLiveData<String>()
-    var ForgotError = MutableLiveData<String>()
-    val firebaseAuth: FirebaseAuth = FirebaseAuth.getInstance()
-    lateinit var loginLiveData: MutableLiveData<FirebaseUser>
+    var emailLogin = MutableLiveData<String?>()
+    var passwordLogin = MutableLiveData<String?>()
+    var emailError = ObservableField<String>()
+    var passwordError = ObservableField<String>()
+    private val utils = Utils()
+    private val firebaseAuth: FirebaseAuth = FirebaseAuth.getInstance()
+    var processBarVisibility = ObservableField<Boolean>()
 
     init {
-
-        EmailLogin.value = null
-        PasswordLogin.value = null
-        EmailError.value = ""
-        EmailErrorVisible.value = false
-        PasswordError.value = ""
-        PasswordErrorVisible.value = false
+        emailLogin.value = null
+        passwordLogin.value = null
+        emailError.set(null)
+        passwordError.set(null)
     }
 
+    @SuppressLint("StaticFieldLeak")
     private lateinit var activity: Activity
     private lateinit var fragmentBinding: LoginFragmentBinding
-    lateinit var repository: FirebaseRepository
 
     fun getActivity(activity: Activity) {
         this.activity = activity
-        this.repository = FirebaseRepository(activity)
     }
 
     fun getBinding(fragmentBinding: LoginFragmentBinding) {
         this.fragmentBinding = fragmentBinding
     }
 
+    fun onForgotClick() {
+        try {
+            val fragment = ForgotPasswordFragment(emailLogin.value.toString())
+            val transaction: FragmentTransaction =
+                (activity as AppCompatActivity).supportFragmentManager.beginTransaction()
+            transaction.replace(R.id.frameLayoutContainer, fragment)
+            transaction.addToBackStack(null)
+            transaction.commit()
+//            resetText()
+        } catch (exception: java.lang.Exception) {
+            Log.e("Error ==> ", "" + exception)
+        }
+    }
+
     fun onRegisterClick() {
         val fragment: Fragment = RegisterFragment.newInstance()
         val transaction: FragmentTransaction =
             (activity as AppCompatActivity).supportFragmentManager.beginTransaction()
-//            activity.getSupportFragmentManager().beginTransaction()
         transaction.replace(R.id.frameLayoutContainer, fragment)
         transaction.addToBackStack(null)
         transaction.commit()
-        resetTextfields()
+        resetText()
     }
 
     fun onLoginClick() {
         try {
-            val utils = Utils()
             if (utils.isNetworkConnectionAvailable(activity)) {
                 if (validateLogin()) {
-                    val email: String? = EmailLogin.value;
-                    val password: String? = PasswordLogin.value
+                    processBarVisibility.set(true)
+                    val email: String? = emailLogin.value
+                    val password: String? = passwordLogin.value
                     try {
                         if (email != null && password != null) {
                             firebaseAuth.signInWithEmailAndPassword(email, password)
                                 .addOnCompleteListener(activity) {
                                     if (it.isSuccessful) {
-                                        val fragment = NewsFragment.newInstance();
+                                        processBarVisibility.set(false)
+                                        val fragment = NewsFragment.newInstance()
                                         val transaction =
                                             (activity as AppCompatActivity).supportFragmentManager.beginTransaction()
                                         transaction.replace(R.id.frameLayoutContainer, fragment)
                                         transaction.commit()
-                                        resetTextfields()
+                                        resetText()
                                     } else {
+                                        processBarVisibility.set(false)
                                         Toast.makeText(
                                             activity,
-                                            it.exception.toString(),
+                                            "" + it.exception?.message.toString(),
                                             Toast.LENGTH_SHORT
                                         ).show()
                                     }
                                 }
                         }
                     } catch (exception: Exception) {
+                        processBarVisibility.set(false)
                         Log.e("Error==>", exception.message.toString())
                     }
                 }
@@ -116,35 +118,26 @@ class LoginViewModel : ViewModel() {
         }
     }
 
-    private fun resetTextfields() {
-        EmailLogin.value = ""
-        PasswordLogin.value = ""
-        fragmentBinding.editTextEmailInput.error = null
-        fragmentBinding.editTextPasswordInput.error = null
+    private fun resetText() {
+        emailLogin.value = null
+        passwordLogin.value = null
+        emailError.set(null)
+        passwordError.set(null)
     }
 
-    fun validateLogin(): Boolean {
-//        EmailError.setValue(null)
-//        PasswordError.setValue(null)
+    private fun validateLogin(): Boolean {
         var valid = true
         try {
-            if (EmailLogin.value == null || EmailLogin.value!!.isEmpty()) {
-//                EmailErrorVisible.value = true
-//                fragmentBinding.textViewErrorEmail.text = "Please enter email address."
-                fragmentBinding.editTextEmailInput.error = "Please enter email address."
+            if (emailLogin.value == null || emailLogin.value!!.isEmpty()) {
+                emailError.set("Please enter email address.")
                 valid = false
             }
-            if (PasswordLogin.value == null || PasswordLogin.value!!.isEmpty()) {
-                fragmentBinding.editTextPasswordInput.setError("Please enter password")
-//                PasswordErrorVisible.value = true
-//                fragmentBinding.textViewErrorPassword.text = "Please enter the password"
-//                PasswordError.value = "Please enter the password."
+            if (passwordLogin.value == null || passwordLogin.value!!.isEmpty()) {
+                passwordError.set("Please enter the password.")
                 valid = false
             }
-            if (!isEmailValid(EmailLogin.value)) {
-//                EmailErrorVisible.value = true
-//                fragmentBinding.textViewErrorEmail.text = "Please enter the valid email"
-                fragmentBinding.editTextEmailInput.error = "Please enter the valid email address"
+            if (!isEmailValid(emailLogin.value)) {
+                emailError.set("Please enter the valid email address")
                 valid = false
             }
         } catch (exception: java.lang.Exception) {
@@ -153,21 +146,7 @@ class LoginViewModel : ViewModel() {
         return valid
     }
 
-    fun onForgotClick() {
-        try {
-            val fragment: Fragment = ForgotPasswordFragment.newInstance()
-            val transaction: FragmentTransaction =
-                (activity as AppCompatActivity).supportFragmentManager.beginTransaction()
-//            activity.getSupportFragmentManager().beginTransaction()
-            transaction.replace(R.id.frameLayoutContainer, fragment)
-            transaction.addToBackStack(null)
-            transaction.commit()
-        } catch (exception: java.lang.Exception) {
-            Log.e("Error ==> ", "" + exception)
-        }
-    }
-
-    fun isEmailValid(value: String?): Boolean {
-        return Patterns.EMAIL_ADDRESS.matcher(value).matches()
+    private fun isEmailValid(value: String?): Boolean {
+        return Patterns.EMAIL_ADDRESS.matcher(value!!).matches()
     }
 }

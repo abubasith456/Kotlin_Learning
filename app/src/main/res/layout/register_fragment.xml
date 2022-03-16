@@ -73,20 +73,21 @@
                 android:text="@={registerViewModel.nameRegister}"
                 android:textColor="@color/colorBlack"
                 android:textSize="@dimen/_12sdp"
+                app:error="@{registerViewModel.nameRegisterError}"
                 tools:ignore="Autofill"
                 tools:targetApi="lollipop" />
 
-<!--            <TextView-->
-<!--                android:id="@+id/mTextViewUserNameError"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_gravity="start"-->
-<!--                android:layout_marginStart="@dimen/_10sdp"-->
-<!--                android:fontFamily="@font/work_sans_semibold"-->
-<!--                android:text="@{registerViewModel.nameRegisterError}"-->
-<!--                android:textColor="@color/colorRed"-->
-<!--                android:textSize="@dimen/_10sdp"-->
-<!--                android:visibility="@{registerViewModel.nameErrorVisible?view.VISIBLE:view.GONE}" />-->
+            <!--            <TextView-->
+            <!--                android:id="@+id/mTextViewUserNameError"-->
+            <!--                android:layout_width="wrap_content"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_gravity="start"-->
+            <!--                android:layout_marginStart="@dimen/_10sdp"-->
+            <!--                android:fontFamily="@font/work_sans_semibold"-->
+            <!--                android:text="@{registerViewModel.nameRegisterError}"-->
+            <!--                android:textColor="@color/colorRed"-->
+            <!--                android:textSize="@dimen/_10sdp"-->
+            <!--                android:visibility="@{registerViewModel.nameErrorVisible?view.VISIBLE:view.GONE}" />-->
 
             <TextView
                 android:id="@+id/tv_email_address"
@@ -116,20 +117,21 @@
                 android:text="@={registerViewModel.emailRegister}"
                 android:textColor="@color/colorBlack"
                 android:textSize="@dimen/_12sdp"
+                app:error="@{registerViewModel.emailRegisterError}"
                 tools:ignore="Autofill"
                 tools:targetApi="lollipop" />
 
-<!--            <TextView-->
-<!--                android:id="@+id/mTextViewSignupEmailError"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_gravity="start"-->
-<!--                android:layout_marginStart="@dimen/_10sdp"-->
-<!--                android:fontFamily="@font/work_sans_semibold"-->
-<!--                android:text="@{registerViewModel.emailRegisterError}"-->
-<!--                android:textColor="@color/colorRed"-->
-<!--                android:textSize="@dimen/_10sdp"-->
-<!--                android:visibility="@{registerViewModel.emailErrorVisible?view.VISIBLE:view.GONE}" />-->
+            <!--            <TextView-->
+            <!--                android:id="@+id/mTextViewSignupEmailError"-->
+            <!--                android:layout_width="wrap_content"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_gravity="start"-->
+            <!--                android:layout_marginStart="@dimen/_10sdp"-->
+            <!--                android:fontFamily="@font/work_sans_semibold"-->
+            <!--                android:text="@{registerViewModel.emailRegisterError}"-->
+            <!--                android:textColor="@color/colorRed"-->
+            <!--                android:textSize="@dimen/_10sdp"-->
+            <!--                android:visibility="@{registerViewModel.emailErrorVisible?view.VISIBLE:view.GONE}" />-->
 
             <TextView
                 android:id="@+id/tv_password"
@@ -160,10 +162,11 @@
                 android:text="@={registerViewModel.passwordRegister}"
                 android:textColor="@color/colorBlack"
                 android:textSize="@dimen/_12sdp"
+                app:error="@{registerViewModel.passwordRegisterError}"
                 tools:ignore="Autofill"
                 tools:targetApi="lollipop" />
 
-<!--            <TextView-->
+            <!--            <TextView-->
             <!--                android:id="@+id/mTextViewPasswordError"-->
             <!--                android:layout_width="wrap_content"-->
             <!--                android:layout_height="wrap_content"-->
@@ -199,6 +202,20 @@
 
         </LinearLayout>
 
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/shade_black"
+            android:visibility="@{registerViewModel.processBarVisibility?view.VISIBLE:view.GONE}">
 
+
+            <ProgressBar
+                android:layout_width="@dimen/_80sdp"
+                android:layout_height="@dimen/_80sdp"
+                android:layout_gravity="center"
+                android:indeterminateDrawable="@drawable/background_custom_progress_bar"
+                android:visibility="visible" />
+
+        </FrameLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

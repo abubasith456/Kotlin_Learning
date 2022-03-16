@@ -9,11 +9,7 @@ import android.view.ViewGroup
 import com.example.kotlinlearning.databinding.ForgotPasswordFragmentBinding
 import com.example.kotlinlearning.viewModel.ForgotPasswordViewModel
 
-class ForgotPasswordFragment : Fragment() {
-
-    companion object {
-        fun newInstance() = ForgotPasswordFragment()
-    }
+class ForgotPasswordFragment(var email:String?) : Fragment() {
 
     private lateinit var viewModel: ForgotPasswordViewModel
     private lateinit var binding: ForgotPasswordFragmentBinding
@@ -30,7 +26,8 @@ class ForgotPasswordFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(this).get(ForgotPasswordViewModel::class.java)
         binding.forgotViewModel = viewModel
-        viewModel.getBinding(binding)
+        viewModel.getBinding(binding,email)
+
         // TODO: Use the ViewModel
     }
 

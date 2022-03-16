@@ -7,6 +7,7 @@ import android.content.res.Resources
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.ObservableField
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -30,10 +31,14 @@ class NewsViewModel : ViewModel() {
     lateinit var binding: NewsFragmentBinding
     private val country = "in"
     private val category = "general"
-    lateinit var newsAdapter: NewsAdapter
     val firebaseAuth: FirebaseAuth = FirebaseAuth.getInstance()
     private val newsHeadlines: MutableLiveData<List<Article>> =
         MutableLiveData<List<Article>>()
+    var processBarVisibility: ObservableField<Boolean> = ObservableField()
+
+    init {
+        processBarVisibility.set(true)
+    }
 
     lateinit var activity: Activity
 
@@ -57,6 +62,7 @@ class NewsViewModel : ViewModel() {
                     response: Response<NewsResponse>
                 ) {
                     if (response.isSuccessful()) {
+                        processBarVisibility.set(false)
                         Toast.makeText(
                             activity,
                             "Success",
@@ -68,6 +74,7 @@ class NewsViewModel : ViewModel() {
                 }
 
                 override fun onFailure(call: Call<NewsResponse>, t: Throwable) {
+                    processBarVisibility.set(false)
                     Toast.makeText(
                         activity,
                         t.message,

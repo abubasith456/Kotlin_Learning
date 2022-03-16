@@ -7,7 +7,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.kotlinlearning.MainActivity
 import com.example.kotlinlearning.databinding.ActivityMainBinding
-import com.example.kotlinlearning.repository.FakeRepository
 import com.google.firebase.auth.FirebaseAuth
 
 class ActivityModel(application: Application) : AndroidViewModel(application) {

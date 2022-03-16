@@ -6,6 +6,10 @@
         <variable
             name="newsViewModel"
             type="com.example.kotlinlearning.viewModel.NewsViewModel" />
+
+        <variable
+            name="view"
+            type="android.view.View" />
     </data>
 
 
@@ -109,6 +113,23 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 tools:listitem="@layout/list_view_items" />
+
+        </FrameLayout>
+
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/shade_black"
+            android:visibility="@{newsViewModel.processBarVisibility?view.VISIBLE:view.GONE}">
+
+
+            <ProgressBar
+                android:layout_width="@dimen/_80sdp"
+                android:layout_height="@dimen/_80sdp"
+                android:layout_gravity="center"
+                android:indeterminateDrawable="@drawable/background_custom_progress_bar"
+                android:visibility="visible" />
 
         </FrameLayout>
 
