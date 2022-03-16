@@ -71,24 +71,22 @@
                 android:padding="@dimen/_10sdp"
                 android:singleLine="true"
                 android:text="@={registerViewModel.nameRegister}"
-
                 android:textColor="@color/colorBlack"
                 android:textSize="@dimen/_12sdp"
-
                 tools:ignore="Autofill"
                 tools:targetApi="lollipop" />
 
-            <TextView
-                android:id="@+id/mTextViewUserNameError"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="start"
-                android:layout_marginStart="@dimen/_10sdp"
-                android:fontFamily="@font/work_sans_semibold"
-                android:text="@{registerViewModel.nameRegisterError}"
-                android:textColor="@color/colorRed"
-                android:textSize="@dimen/_10sdp"
-                android:visibility="@{registerViewModel.nameErrorVisible?view.VISIBLE:view.GONE}" />
+<!--            <TextView-->
+<!--                android:id="@+id/mTextViewUserNameError"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_gravity="start"-->
+<!--                android:layout_marginStart="@dimen/_10sdp"-->
+<!--                android:fontFamily="@font/work_sans_semibold"-->
+<!--                android:text="@{registerViewModel.nameRegisterError}"-->
+<!--                android:textColor="@color/colorRed"-->
+<!--                android:textSize="@dimen/_10sdp"-->
+<!--                android:visibility="@{registerViewModel.nameErrorVisible?view.VISIBLE:view.GONE}" />-->
 
             <TextView
                 android:id="@+id/tv_email_address"
@@ -121,17 +119,17 @@
                 tools:ignore="Autofill"
                 tools:targetApi="lollipop" />
 
-            <TextView
-                android:id="@+id/mTextViewSignupEmailError"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="start"
-                android:layout_marginStart="@dimen/_10sdp"
-                android:fontFamily="@font/work_sans_semibold"
-                android:text="@{registerViewModel.emailRegisterError}"
-                android:textColor="@color/colorRed"
-                android:textSize="@dimen/_10sdp"
-                android:visibility="@{registerViewModel.emailErrorVisible?view.VISIBLE:view.GONE}" />
+<!--            <TextView-->
+<!--                android:id="@+id/mTextViewSignupEmailError"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_gravity="start"-->
+<!--                android:layout_marginStart="@dimen/_10sdp"-->
+<!--                android:fontFamily="@font/work_sans_semibold"-->
+<!--                android:text="@{registerViewModel.emailRegisterError}"-->
+<!--                android:textColor="@color/colorRed"-->
+<!--                android:textSize="@dimen/_10sdp"-->
+<!--                android:visibility="@{registerViewModel.emailErrorVisible?view.VISIBLE:view.GONE}" />-->
 
             <TextView
                 android:id="@+id/tv_password"
@@ -165,17 +163,17 @@
                 tools:ignore="Autofill"
                 tools:targetApi="lollipop" />
 
-            <TextView
-                android:id="@+id/mTextViewPasswordError"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="start"
-                android:layout_marginStart="@dimen/_10sdp"
-                android:fontFamily="@font/work_sans_semibold"
-                android:text="@{registerViewModel.passwordRegisterError}"
-                android:textColor="@color/colorRed"
-                android:textSize="@dimen/_10sdp"
-                android:visibility="@{registerViewModel.passwordErrorVisible?view.VISIBLE:view.GONE}" />
+<!--            <TextView-->
+            <!--                android:id="@+id/mTextViewPasswordError"-->
+            <!--                android:layout_width="wrap_content"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_gravity="start"-->
+            <!--                android:layout_marginStart="@dimen/_10sdp"-->
+            <!--                android:fontFamily="@font/work_sans_semibold"-->
+            <!--                android:text="@{registerViewModel.passwordRegisterError}"-->
+            <!--                android:textColor="@color/colorRed"-->
+            <!--                android:textSize="@dimen/_10sdp"-->
+            <!--                android:visibility="@{registerViewModel.passwordErrorVisible?view.VISIBLE:view.GONE}" />-->
 
             <LinearLayout
                 android:id="@+id/layoutSignUp"

@@ -9,15 +9,16 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.kotlinlearning.R
+import com.example.kotlinlearning.databinding.RegisterFragmentBinding
 import com.example.kotlinlearning.fragment.NewsFragment
 import com.example.kotlinlearning.utils.Utils
 import com.google.firebase.auth.FirebaseAuth
 
 class RegisterViewModel : ViewModel() {
 
-    var EmailRegister = MutableLiveData<String>()
-    var PasswordRegister = MutableLiveData<String>()
-    var NameRegister = MutableLiveData<String>()
+    var EmailRegister = MutableLiveData<String?>()
+    var PasswordRegister = MutableLiveData<String?>()
+    var NameRegister = MutableLiveData<String?>()
     var EmailRegisterError = MutableLiveData<String?>()
     var PasswordRegisterError = MutableLiveData<String?>()
     var NameRegisterError = MutableLiveData<String?>()
@@ -27,6 +28,9 @@ class RegisterViewModel : ViewModel() {
     val firebaseAuth: FirebaseAuth = FirebaseAuth.getInstance()
 
     init {
+        EmailRegister.value = null
+        PasswordRegister.value = null
+        NameRegister.value = null
         NameErrorVisible.value = false
         EmailErrorVisible.value = false;
         PasswordErrorVisible.value = false
@@ -34,9 +38,14 @@ class RegisterViewModel : ViewModel() {
 
     @SuppressLint("StaticFieldLeak")
     private lateinit var activity: Activity
+    lateinit var binding: RegisterFragmentBinding
 
     fun getActivity(activity: Activity) {
         this.activity = activity
+    }
+
+    fun getBinding(binding: RegisterFragmentBinding) {
+        this.binding = binding
     }
 
     fun onRegisterClick() {
@@ -59,6 +68,7 @@ class RegisterViewModel : ViewModel() {
                                     (activity as AppCompatActivity).supportFragmentManager.beginTransaction()
                                 transaction.replace(R.id.frameLayoutContainer, fragment)
                                 transaction.commit()
+                                clearEditTextField()
                             } else {
                                 Toast.makeText(
                                     activity,
@@ -84,43 +94,44 @@ class RegisterViewModel : ViewModel() {
         }
     }
 
+     fun clearEditTextField() {
+        EmailRegister.value = null
+        PasswordRegister.value = null
+        NameRegister.value = null
+        binding.editTextSignUpUserName.error = null
+        binding.editTextSignUpEmail.error = null
+        binding.editTextSignUpPassword.error = null
+    }
+
     fun validateRegister(): Boolean {
-        EmailRegisterError.setValue(null)
-        NameRegisterError.setValue(null)
-        PasswordRegisterError.setValue(null)
+//        EmailRegisterError.setValue(null)
+//        NameRegisterError.setValue(null)
+//        PasswordRegisterError.setValue(null)
         var valid = true
         try {
             if (NameRegister.value == null || NameRegister.value!!.isEmpty()) {
-                NameErrorVisible.value = true
-                NameRegisterError.setValue("Please enter the Username")
+//                NameErrorVisible.value = true
+//                NameRegisterError.setValue("Please enter the Username")
+                binding.editTextSignUpUserName.error = "Please enter the Username"
                 valid = false
-            } else {
-                NameErrorVisible.value = false
-                NameRegisterError.setValue("")
             }
             if (EmailRegister.value == null || EmailRegister.value!!.isEmpty()) {
-                EmailErrorVisible.value = true
-                EmailRegisterError.setValue("Please enter the email")
+//                EmailErrorVisible.value = true
+//                EmailRegisterError.setValue("Please enter the email")
+                binding.editTextSignUpEmail.error = "Please enter the email"
                 valid = false
-            } else {
-                EmailErrorVisible.value = false
-                EmailRegisterError.setValue("")
             }
             if (PasswordRegister.value == null || PasswordRegister.value!!.isEmpty()) {
-                PasswordErrorVisible.value = true
-                PasswordRegisterError.setValue("Please enter the password.")
+//                PasswordErrorVisible.value = true
+//                PasswordRegisterError.setValue("Please enter the password.")
+                binding.editTextSignUpPassword.error = "Please enter the password."
                 valid = false
-            } else {
-                PasswordErrorVisible.value = false
-                PasswordRegisterError.setValue("")
             }
             if (!isEmailValid(EmailRegister.value)) {
-                PasswordErrorVisible.value = true
-                EmailRegisterError.setValue("Please enter a valid email address.")
+//                PasswordErrorVisible.value = true
+//                EmailRegisterError.setValue("Please enter a valid email address.")
+                binding.editTextSignUpEmail.error = "Please enter the valid email address"
                 valid = false
-            } else {
-                PasswordErrorVisible.value = false
-                EmailRegisterError.setValue("")
             }
         } catch (exception: java.lang.Exception) {
             Log.e("Error ==> ", "" + exception)

@@ -6,7 +6,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.example.kotlinlearning.R
 import com.example.kotlinlearning.databinding.ForgotPasswordFragmentBinding
 import com.example.kotlinlearning.viewModel.ForgotPasswordViewModel
 
@@ -31,6 +30,7 @@ class ForgotPasswordFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(this).get(ForgotPasswordViewModel::class.java)
         binding.forgotViewModel = viewModel
+        viewModel.getBinding(binding)
         // TODO: Use the ViewModel
     }
 

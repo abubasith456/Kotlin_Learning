@@ -6,7 +6,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.example.kotlinlearning.R
 import com.example.kotlinlearning.databinding.RegisterFragmentBinding
 import com.example.kotlinlearning.viewModel.RegisterViewModel
 
@@ -39,7 +38,13 @@ class RegisterFragment : Fragment() {
         binding.apply {
             this.registerViewModel = viewModel
         }
+        viewModel.getBinding(binding)
         // TODO: Use the ViewModel
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        viewModel.clearEditTextField()
     }
 
 }
