@@ -22,12 +22,12 @@ import com.google.firebase.auth.FirebaseUser
 
 class LoginViewModel : ViewModel() {
     // TODO: Implement the ViewModel
-    var EmailLogin = MutableLiveData<String?>()
-    var PasswordLogin = MutableLiveData<String?>()
-    var EmailError = MutableLiveData<String?>()
-    var EmailErrorVisible = MutableLiveData<Boolean>()
-    var PasswordError = MutableLiveData<String?>()
-    var PasswordErrorVisible = MutableLiveData<Boolean>()
+    var EmailLogin: MutableLiveData<String?> = MutableLiveData()
+    var PasswordLogin: MutableLiveData<String?> = MutableLiveData()
+    var EmailError: MutableLiveData<String> = MutableLiveData()
+    var EmailErrorVisible: MutableLiveData<Boolean> = MutableLiveData()
+    var PasswordError: MutableLiveData<String> = MutableLiveData()
+    var PasswordErrorVisible: MutableLiveData<Boolean> = MutableLiveData()
     var EmailRegister = MutableLiveData<String>()
     var PasswordRegister = MutableLiveData<String>()
     var NameRegister = MutableLiveData<String>()
@@ -38,14 +38,11 @@ class LoginViewModel : ViewModel() {
     var ForgotError = MutableLiveData<String>()
     val firebaseAuth: FirebaseAuth = FirebaseAuth.getInstance()
     lateinit var loginLiveData: MutableLiveData<FirebaseUser>
-//    val errorMessage = MutableLiveData<Int>()
 
-    //    interface LoginViewModel {
-//        val errorMessage: LiveData<Int>
-//    }
     init {
-        EmailLogin.value = ""
-        PasswordLogin.value = ""
+
+        EmailLogin.value = null
+        PasswordLogin.value = null
         EmailError.value = ""
         EmailErrorVisible.value = false
         PasswordError.value = ""
@@ -73,23 +70,9 @@ class LoginViewModel : ViewModel() {
         transaction.replace(R.id.frameLayoutContainer, fragment)
         transaction.addToBackStack(null)
         transaction.commit()
+        resetTextfields()
     }
 
-    //    public MutableLiveData<Boolean> onClickShow(View view) {
-    //        EmailError.setValue(null);
-    //        PasswordError.setValue(null);
-    //        onClickResult.setValue(true);
-    //        onClickRegister.setValue(true);
-    //        return onClickResult;
-    //    }
-    //    public MutableLiveData<Boolean> onForgotPasswordClick(View view) {
-    //        EmailError.setValue(null);
-    //        PasswordError.setValue(null);
-    //        onClickResult.setValue(true);
-    //        onClickRegister.setValue(false);
-    //        onClickForgotResult.setValue(true);
-    //        return onClickResult;
-    //    }
     fun onLoginClick() {
         try {
             val utils = Utils()
@@ -136,8 +119,8 @@ class LoginViewModel : ViewModel() {
     private fun resetTextfields() {
         EmailLogin.value = ""
         PasswordLogin.value = ""
-        EmailErrorVisible.value = false
-        PasswordErrorVisible.value = false
+        fragmentBinding.editTextEmailInput.error = null
+        fragmentBinding.editTextPasswordInput.error = null
     }
 
     fun validateLogin(): Boolean {
@@ -146,32 +129,23 @@ class LoginViewModel : ViewModel() {
         var valid = true
         try {
             if (EmailLogin.value == null || EmailLogin.value!!.isEmpty()) {
-                Toast.makeText(activity, "Please enter email address.", Toast.LENGTH_SHORT).show()
-                EmailErrorVisible.postValue(true)
-                EmailError.value = "Please enter email address."
+//                EmailErrorVisible.value = true
+//                fragmentBinding.textViewErrorEmail.text = "Please enter email address."
+                fragmentBinding.editTextEmailInput.error = "Please enter email address."
                 valid = false
-            } else {
-                EmailErrorVisible.value = false
-                EmailError.value = ""
             }
             if (PasswordLogin.value == null || PasswordLogin.value!!.isEmpty()) {
-                Toast.makeText(activity, "Please enter the password.", Toast.LENGTH_SHORT).show()
-                PasswordErrorVisible.value = true
-                PasswordError.value = "Please enter the password."
+                fragmentBinding.editTextPasswordInput.setError("Please enter password")
+//                PasswordErrorVisible.value = true
+//                fragmentBinding.textViewErrorPassword.text = "Please enter the password"
+//                PasswordError.value = "Please enter the password."
                 valid = false
-            } else {
-                PasswordErrorVisible.value = false
-                PasswordError.value = ""
             }
             if (!isEmailValid(EmailLogin.value)) {
-                Toast.makeText(activity, "Please enter a valid email address.", Toast.LENGTH_SHORT)
-                    .show()
-                EmailErrorVisible.value = true
-                EmailError.value = "Please enter a valid email address."
+//                EmailErrorVisible.value = true
+//                fragmentBinding.textViewErrorEmail.text = "Please enter the valid email"
+                fragmentBinding.editTextEmailInput.error = "Please enter the valid email address"
                 valid = false
-            } else {
-                EmailErrorVisible.value = false
-                EmailError.value = ""
             }
         } catch (exception: java.lang.Exception) {
             Log.e("Error ==> ", "" + exception)
