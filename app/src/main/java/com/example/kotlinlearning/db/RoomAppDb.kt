@@ -10,13 +10,11 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 @Database(entities = [NewsEntity::class], version = 1)
 abstract class RoomAppDb: RoomDatabase() {
 
-
     abstract fun userDao(): Dao?
 
     companion object {
         private var INSTANCE: RoomAppDb?= null
         fun getAppDatabase(context: Context): RoomAppDb? {
-
             if(INSTANCE == null ) {
 
                 INSTANCE = Room.databaseBuilder<RoomAppDb>(

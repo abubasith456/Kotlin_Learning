@@ -19,18 +19,16 @@ class ForgotPasswordViewModel(application: Application) : AndroidViewModel(appli
     var processBarVisibility = ObservableField<Boolean>()
     private val firebaseAuth: FirebaseAuth = FirebaseAuth.getInstance()
     lateinit var binding: ForgotPasswordFragmentBinding
-    var email: String? = null
+    var email: String? = ""
     private val utils = Utils()
-
-    init {
-        forgotPassword.set(null)
-    }
 
     fun getBinding(binding: ForgotPasswordFragmentBinding, email: String?) {
         this.binding = binding
         this.email = email
 
-        if (!email.equals(null)) {
+        if (email.equals("null")) {
+            forgotPassword.set("")
+        } else {
             forgotPassword.set(email)
         }
 

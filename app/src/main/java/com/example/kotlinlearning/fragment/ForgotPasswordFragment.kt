@@ -27,7 +27,6 @@ class ForgotPasswordFragment(var email:String?) : Fragment() {
         viewModel = ViewModelProvider(this).get(ForgotPasswordViewModel::class.java)
         binding.forgotViewModel = viewModel
         viewModel.getBinding(binding,email)
-
         // TODO: Use the ViewModel
     }
 
