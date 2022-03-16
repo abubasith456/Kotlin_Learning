@@ -56,6 +56,8 @@ class LoginViewModel : ViewModel() {
             transaction.replace(R.id.frameLayoutContainer, fragment)
             transaction.addToBackStack(null)
             transaction.commit()
+            emailError.set(null)
+            passwordError.set(null)
 //            resetText()
         } catch (exception: java.lang.Exception) {
             Log.e("Error ==> ", "" + exception)

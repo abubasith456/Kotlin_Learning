@@ -8,6 +8,10 @@
         <variable
             name="detailsModel"
             type="com.example.kotlinlearning.model.detailsModel.DetailsModel" />
+
+        <variable
+            name="detailsViewModel"
+            type="com.example.kotlinlearning.viewModel.NewsDetailsViewModel" />
     </data>
 
 
@@ -171,8 +175,10 @@
                     android:fontFamily="@font/work_sans_medium"
                     android:padding="@dimen/_2sdp"
                     android:text="@{detailsModel.url}"
-                    android:textColor="@color/colorBlack"
+                    android:textColor="@color/colorBlue"
+                    android:textStyle="italic"
                     android:textSize="@dimen/_10sdp"
+                    android:onClick="@{()->detailsViewModel.onUrlClick()}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.219"
                     app:layout_constraintStart_toEndOf="@+id/textView2"

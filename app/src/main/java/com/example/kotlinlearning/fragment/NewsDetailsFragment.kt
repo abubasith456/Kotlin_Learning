@@ -2,12 +2,10 @@ package com.example.kotlinlearning.fragment
 
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import com.example.kotlinlearning.databinding.NewsDetailsFragmentBinding
 import com.example.kotlinlearning.db.NewsEntity
 import com.example.kotlinlearning.model.detailsModel.DetailsModel
@@ -41,7 +39,8 @@ class NewsDetailsFragment(
         detailsModel =
             DetailsModel(title, description, author, publishedAt, urlToImage, url, content)
         binding.detailsModel = detailsModel
-        activity?.let { viewModel.getActivity(it) }
+        binding.detailsViewModel=viewModel
+        activity?.let { viewModel.getActivity(it,url) }
         val news = NewsEntity()
         news.id = 0
         news.author = author
