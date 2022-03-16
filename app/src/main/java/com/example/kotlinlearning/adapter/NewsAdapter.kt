@@ -2,16 +2,12 @@ package com.example.kotlinlearning.adapter
 
 import android.content.Context
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.example.kotlinlearning.R
 import com.example.kotlinlearning.databinding.ListViewItemsBinding
 import com.example.kotlinlearning.fragment.NewsDetailsFragment
-import com.example.kotlinlearning.fragment.NewsFragment
 import com.example.kotlinlearning.model.Article
 
 class NewsAdapter(var context: Context, var newsList: List<Article>) :
@@ -29,38 +25,41 @@ class NewsAdapter(var context: Context, var newsList: List<Article>) :
         val article: Article = newsList.get(position)
         holder.listViewItemsBinding.articles = article
         holder.listViewItemsBinding.executePendingBindings()
-        holder.listViewItemsBinding.constarinLayout.setOnClickListener {
-
-            val fragment = NewsDetailsFragment(
-                article.title,
-                article.description,
-                article.content,
-                article.urlToImage,
-                article.url,
-                article.author,
-                article.publishedAt
-            )
-            val transaction =
-                (context as AppCompatActivity).supportFragmentManager.beginTransaction()
-            transaction.replace(R.id.frameLayoutContainer, fragment)
-            transaction.addToBackStack(null)
-            transaction.commit()
-
-        }
+        holder.bind(article, position)
+//        holder.
     }
 
     override fun getItemCount(): Int {
         return newsList.size
     }
 
-    class NewsViewHolder(listViewItemsBinding: ListViewItemsBinding) :
+    inner class NewsViewHolder(listViewItemsBinding: ListViewItemsBinding) :
         RecyclerView.ViewHolder(listViewItemsBinding.root) {
 
         var listViewItemsBinding: ListViewItemsBinding
 
-
         init {
             this.listViewItemsBinding = listViewItemsBinding
+        }
+
+        fun bind(article: Article, position: Int) {
+            listViewItemsBinding.constarinLayout.setOnClickListener {
+                val fragment = NewsDetailsFragment(
+                    article.title,
+                    article.description,
+                    article.content,
+                    article.urlToImage,
+                    article.url,
+                    article.author,
+                    article.publishedAt
+                )
+                val transaction =
+                    (context as AppCompatActivity).supportFragmentManager.beginTransaction()
+                transaction.replace(R.id.frameLayoutContainer, fragment)
+                transaction.addToBackStack(null)
+                transaction.commit()
+
+            }
         }
     }
 

@@ -6,11 +6,9 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
-import com.example.kotlinlearning.databinding.ListViewItemsBinding
 import com.example.kotlinlearning.databinding.ListViewOfflineDbBinding
 import com.example.kotlinlearning.db.NewsEntity
 import com.example.kotlinlearning.db.RoomAppDb
-import com.example.kotlinlearning.model.Article
 
 class OfflineNewsAdapter(
     var context: Context,
@@ -31,22 +29,7 @@ class OfflineNewsAdapter(
     override fun onBindViewHolder(holder: OfflineNewsViewHolder, position: Int) {
         val news: NewsEntity = newsList.get(position)
         holder.listViewItemsBinding.newsEntity = news
-        holder.listViewItemsBinding.linearLayoutDelete.setOnClickListener {
-            try {
-                val newsEntity = NewsEntity()
-                newsEntity.id = newsList.get(position).id
-                val userDao = RoomAppDb.getAppDatabase(context.applicationContext)?.userDao()
-                userDao?.deleteNews(newsEntity)
-                newsList.removeAt(position)
-                /* In java we notify adapter index is deleted be like
-                notifyItemRemoved(getAdapterPosition) */
-                notifyItemRemoved(position + 1)
-//                notifyDataSetChanged()
-                Toast.makeText(context, "Deleted", Toast.LENGTH_SHORT).show()
-            } catch (exception: Exception) {
-                Log.e("Offline error==> ", exception.message.toString())
-            }
-        }
+        holder.bind(news, position)
 
     }
 
@@ -54,13 +37,33 @@ class OfflineNewsAdapter(
         return newsList.size
     }
 
-    class OfflineNewsViewHolder(listViewItemsBinding: ListViewOfflineDbBinding) :
+    inner class OfflineNewsViewHolder(listViewItemsBinding: ListViewOfflineDbBinding) :
         RecyclerView.ViewHolder(listViewItemsBinding.root) {
 
         var listViewItemsBinding: ListViewOfflineDbBinding
 
         init {
             this.listViewItemsBinding = listViewItemsBinding
+        }
+
+        fun bind(news: NewsEntity, position: Int) {
+            listViewItemsBinding.linearLayoutDelete.setOnClickListener {
+                try {
+                    val newsEntity = NewsEntity()
+                    newsEntity.id = news.id
+                    val userDao = RoomAppDb.getAppDatabase(context)?.userDao()
+                    userDao?.deleteNews(newsEntity)
+                    newsList.removeAt(position)
+                    /* In java we notify adapter index is deleted be like
+                    notifyItemRemoved(getAdapterPosition)
+                    notifyItemRemoved(position + 1)*/
+                    notifyItemRemoved(adapterPosition)
+//                notifyDataSetChanged()
+                    Toast.makeText(context, "Deleted", Toast.LENGTH_SHORT).show()
+                } catch (exception: Exception) {
+                    Log.e("Offline error==> ", exception.message.toString())
+                }
+            }
         }
     }
 

@@ -43,7 +43,7 @@ class OfflineNewsFragment : Fragment() {
 
         viewModel.getOfflineNewsHeadlines().observe(requireActivity()) {
             try {
-                Log.e("Offline news==> ", it?.get(0)?.title.toString())
+                Log.e("Offline db count==> ", it?.size.toString())
                 newsAdapter = OfflineNewsAdapter(requireContext(), it!! as MutableList<NewsEntity>)
                 binding.recyclerViewOfflineNews.adapter = newsAdapter
                 newsAdapter.notifyDataSetChanged()
